@@ -1,0 +1,27 @@
+name: Incident
+description: Live/критичный стенд деградировал (класс incident)
+title: "[incident] "
+labels: ["class:incident", "prio:p0", "type:bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Класс: `incident`. Рецепт: `<sdlc-root>/process/workflows/incident.md`.
+        Сначала стабилизация, потом фикс.
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Кто задет, платформа, с какого момента
+    validations:
+      required: true
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Таймлайн
+    validations:
+      required: true
+  - type: textarea
+    id: actions
+    attributes:
+      label: Уже сделано / нужна стабилизация

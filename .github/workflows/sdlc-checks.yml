@@ -1,0 +1,33 @@
+name: sdlc-checks
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  product-wrapper-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required product paths exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          for p in \
+            AGENTS.md \
+            game/AGENTS.md \
+            docs/world/README.md \
+            .gamedev-sdlc/process/AGENTS.md \
+            .gamedev-sdlc/process/workflows/router.md \
+            .gamedev-sdlc/game/AGENTS.md \
+            .github/PULL_REQUEST_TEMPLATE.md \
+            .github/labels.yml
+          do
+            test -f "$p" || { echo "missing $p"; exit 1; }
+          done
+          echo "product wrapper structure ok"
+      - name: No accidental .common tree
+        shell: bash
+        run: |
+          if [ -d .common ]; then echo ".common must not exist"; exit 1; fi

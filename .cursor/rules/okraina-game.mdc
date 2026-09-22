@@ -1,0 +1,14 @@
+---
+description: Okraina Godot product — follow project AGENTS and sdlc canon
+globs:
+  - "**/*.gd"
+  - "**/*.tscn"
+  - "**/*.tres"
+  - "game/**"
+  - "docs/**"
+alwaysApply: false
+---
+
+Read project root `AGENTS.md`, then `.gamedev-sdlc/process/workflows/router.md`, then `game/AGENTS.md`.
+Canon: `.gamedev-sdlc/process` and `.gamedev-sdlc/game`. Do not read `.gamedev-sdlc/evolve` from product work.
+World / lore SoT: `docs/world/`.

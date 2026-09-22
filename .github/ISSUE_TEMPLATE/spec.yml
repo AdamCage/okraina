@@ -1,0 +1,29 @@
+name: Spec / элаборация
+description: Только контракт и дизайн без кода (класс spec-only)
+title: "[spec] "
+labels: ["class:spec-only", "type:design", "stage:analysis"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Класс: `spec-only`. Рецепт: `<sdlc-root>/process/workflows/spec-only.md`.
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Платформы
+      options: [pc, mobile, both]
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Что нужно определить
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Куда лягут артефакты
+      placeholder: docs/<feature_id>/spec.md, DESIGN.md, assumptions.md
+    validations:
+      required: true

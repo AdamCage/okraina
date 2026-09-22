@@ -1,0 +1,29 @@
+name: sdlc-checks
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  markdown-links-and-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required canon paths exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          for p in \
+            README.md AGENTS.md \
+            process/AGENTS.md process/SKILL.md process/workflows/router.md process/github.md \
+            evolve/AGENTS.md evolve/SKILL.md \
+            game/AGENTS.md game/SKILL.md game/design.md game/platforms.md
+          do
+            test -f "$p" || { echo "missing $p"; exit 1; }
+          done
+          echo "structure ok"
+      - name: No .common tree
+        shell: bash
+        run: |
+          if [ -d .common ]; then echo ".common must not exist"; exit 1; fi

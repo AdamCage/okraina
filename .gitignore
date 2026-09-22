@@ -1,0 +1,30 @@
+# Local agent scratch
+.conversation.md
+
+# Godot 4
+.godot/
+*.translation
+export/
+builds/
+*.apk
+*.aab
+*.ipa
+*.exe
+*.pck
+*.zip
+
+# OS / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~
+
+# Secrets / signing (never commit)
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+.env
+.env.*
+!.env.example

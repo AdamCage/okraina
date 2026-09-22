@@ -1,0 +1,39 @@
+name: Feature / механика
+description: Новый контур или новая механика (класс feature-cycle)
+title: "[feature] "
+labels: ["class:feature-cycle", "type:design", "stage:analysis"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Класс: `feature-cycle`. Рецепт: `<sdlc-root>/process/workflows/feature-cycle.md`.
+        Не дублировать спеку здесь — положите файлы в `docs/<feature_id>/` и дайте ссылки.
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Платформы
+      options: [pc, mobile, both]
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Цель игрока / системы
+      description: Один абзац
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Ссылки на артефакты
+      placeholder: |
+        - docs/<feature_id>/spec.md
+        - docs/<feature_id>/DESIGN.md
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance (user paths)
+    validations:
+      required: true

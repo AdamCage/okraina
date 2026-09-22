@@ -1,0 +1,89 @@
+# Labels канона gamedev-sdlc
+# Применить в продукте через UI или `gh label create`.
+# Цвета — рекомендация; продукт может изменить.
+
+- name: class:bootstrap-project
+  color: "BFD4F2"
+  description: Подключение канона в продукт
+- name: class:spec-only
+  color: "BFD4F2"
+  description: Контракт / элаборация без кода
+- name: class:feature-cycle
+  color: "1D76DB"
+  description: Новый контур / механика
+- name: class:increment
+  color: "0E8A16"
+  description: Дельта к живому контуру
+- name: class:hotfix
+  color: "D93F0B"
+  description: Узкий фикс известного поведения
+- name: class:review-only
+  color: "5319E7"
+  description: Только ревью / критика
+- name: class:incident
+  color: "B60205"
+  description: Стабилизация live/стенда
+- name: class:deploy
+  color: "FBCA04"
+  description: Выкат уже собранного
+- name: class:admin
+  color: "C5DEF5"
+  description: CI / GitHub / обвязка
+- name: class:release
+  color: "006B75"
+  description: Версия / tag / store ship
+
+- name: stage:analysis
+  color: "FEF2C0"
+  description: Анализ
+- name: stage:elaboration
+  color: "FEF2C0"
+  description: Элаборация дизайна
+- name: stage:dev
+  color: "C2E0C6"
+  description: Разработка
+- name: stage:playtest
+  color: "C2E0C6"
+  description: Playable / device прогон
+- name: stage:review
+  color: "D4C5F9"
+  description: Ревью / критика
+- name: stage:release
+  color: "006B75"
+  description: Поставка
+
+- name: platform:pc
+  color: "0052CC"
+  description: Computer / PC
+- name: platform:mobile
+  color: "0052CC"
+  description: iOS / Android
+- name: platform:both
+  color: "0052CC"
+  description: PC и mobile
+
+- name: prio:p0
+  color: "B60205"
+  description: Блокер live / шипа
+- name: prio:p1
+  color: "D93F0B"
+  description: Высокий
+- name: prio:p2
+  color: "FBCA04"
+  description: Обычный
+
+- name: type:bug
+  color: "D73A4A"
+  description: Дефект
+- name: type:design
+  color: "A2EEEF"
+  description: Дизайн / элаборация
+- name: type:tech
+  color: "BFDADC"
+  description: Технический контур
+- name: type:docs
+  color: "0075CA"
+  description: Документация
+- name: type:admin
+  color: "EDEDED"
+  description: Хозяйство репо

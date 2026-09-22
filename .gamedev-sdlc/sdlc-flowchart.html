@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Gamedev Agentic SDLC — flowchart</title>
+  <style>
+    body { font-family: Georgia, serif; margin: 2rem; line-height: 1.45; max-width: 52rem; }
+    code { font-family: Consolas, monospace; }
+    .stage { border-left: 4px solid #333; padding-left: 1rem; margin: 1rem 0; }
+    h1 { font-size: 1.6rem; }
+  </style>
+</head>
+<body>
+  <h1>Agentic SDLC — Game Development</h1>
+  <p>Карта стадий → классы process. Детали в <code>README.md</code> и <code>process/workflows/</code>.</p>
+  <div class="stage"><strong>1. Анализ</strong> — <code>spec-only</code> / feature-cycle §1</div>
+  <div class="stage"><strong>2. Элаборация</strong> — feature-cycle §2 + <code>game/design.md</code></div>
+  <div class="stage"><strong>3. Разработка</strong> — feature-cycle §3 / <code>increment</code> + <code>game/workflows.md</code></div>
+  <div class="stage"><strong>4. Запуск и отладка</strong> — feature-cycle §4 / <code>deploy</code> / <code>hotfix</code></div>
+  <div class="stage"><strong>5. Ревью и критика</strong> — критик + <code>review-only</code> / цикл ревью</div>
+  <div class="stage"><strong>6. Фиксы и повтор</strong> — feature-cycle §5–6 до blocker=0</div>
+  <div class="stage"><strong>7. Релиз</strong> — <code>release</code> + <code>game/platforms.md</code> (PC / mobile)</div>
+  <p>SoR: GitHub Issues / PR / labels / Actions / Releases — <code>process/github.md</code>.</p>
+</body>
+</html>

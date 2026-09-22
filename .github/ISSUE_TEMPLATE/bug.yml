@@ -1,0 +1,37 @@
+name: Bug / hotfix
+description: Сломано известное поведение (класс hotfix)
+title: "[bug] "
+labels: ["class:hotfix", "type:bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Класс: `hotfix`. Рецепт: `<sdlc-root>/process/workflows/hotfix.md`.
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Платформы
+      options: [pc, mobile, both]
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Приоритет
+      options: [prio:p0, prio:p1, prio:p2]
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Repro
+      description: Шаги, устройство/OS, build id, ожидание vs факт
+    validations:
+      required: true
+  - type: textarea
+    id: links
+    attributes:
+      label: Ссылки
+      placeholder: |
+        - docs/.../test-report.md
+        - logs / crash URL (без секретов)
