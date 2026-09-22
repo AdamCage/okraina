@@ -13,3 +13,9 @@
 | [`review.md`](review.md) | Критик аналитики |
 
 Issue: https://github.com/AdamCage/okraina/issues/1
+
+## Следующие стадии (план)
+
+| Файл | Назначение |
+|---|---|
+| [`ROADMAP.md`](ROADMAP.md) | Исполняемый план стадий под агентский SDLC (классы router). **Реализация по плану ещё не начата.** |
