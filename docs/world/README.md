@@ -2,8 +2,14 @@
 
 Мир и лор игры **«Окраина»**.
 
-Следующий артефакт (класс `spec-only`): **lore bible v0.1** —
-карта города, эпохи, организации, аномалии, гигахрущ, интернет-культура,
-центральная тайна, AUTHOR TRUTH vs PLAYER KNOWLEDGE.
+## Lore bible v0.1 (spec-only)
 
-Пока каталог-заглушка после `bootstrap-project`.
+| Файл | Назначение |
+|---|---|
+| [`spec.md`](spec.md) | Контракт контура |
+| [`assumptions.md`](assumptions.md) | Допущения / OPEN |
+| [`LORE.md`](LORE.md) | Player-facing / shared bible |
+| [`AUTHOR_TRUTH.md`](AUTHOR_TRUTH.md) | Только авторы (отдельно) |
+| [`review.md`](review.md) | Критик аналитики |
+
+Issue: https://github.com/AdamCage/okraina/issues/1
