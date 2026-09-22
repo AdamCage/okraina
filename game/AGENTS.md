@@ -12,13 +12,13 @@
 
 ## Scope
 
-- Godot версия: `4.7` (патч — по политике проекта; бинарник TBD)
-- Путь к `project.godot`: `game/project.godot` (ещё не создан)
-- Бинарник `godot`: TBD (не в PATH на bootstrap-машине)
+- Godot версия: `4.7.2`
+- Путь к `project.godot`: `game/project.godot`
+- Бинарник `godot`: `tools/godot/Godot_v4.7.2-stable_win64.exe` (и `_console.exe`; каталог `tools/` в `.gitignore`)
 - Язык: GDScript (default)
-- Контуры: `game/docs/<feature_id>/` …
+- Контуры: `game/docs/vertical_slice/` …
 - Платформы: Windows now; Android next; iOS later
-- Export presets: TBD (`Windows Desktop`, `Android`, …)
+- Export presets: TBD
 - Store каналы: нет (класс `release` выключен)
 
 ## Where work lives
@@ -26,32 +26,23 @@
 - World / lore SoT (product): `docs/world/` (корень репо)
 - Docs контура: `game/docs/<feature_id>/`
 - Scenes: `game/scenes/`
-- Scripts (`.gd`): `game/scripts/`
+- Scripts (`.gd`): `game/scripts/` + `game/autoload/`
 - Resources / data: `game/resources/`
-- Autoloads: TBD после появления `project.godot`
+- Autoloads: `GameState`
 - Export presets: `game/export_presets.cfg` (+ Secrets для signing)
 
 ## Local invariants
 
 1. Нет IAP / prod-store submit из агентских задач.
-2. Performance budgets: TBD на первом playable slice (fps / memory / cold start / build size).
-3. Save path: `user://` (конкретный файл — при первом save-контуре).
-
-## Configuration / content
-
-- Баланс / контент-данные — через `.tres` / таблицы под `game/resources/` (когда появятся).
-- Save format / migration owner — TBD с первым save-контуром.
-
-## Common tasks
-
-- Добавить механику → элаборация + сцена/скрипт + `ARCHITECTURE.md` в `game/docs/<feature_id>/`
-- Lore / world bible → `docs/world/` (`spec-only`, без кода)
+2. Performance budgets: TBD (placeholder slice).
+3. Save path: нет дискового save в vertical_slice (S4).
 
 ## Commands
 
-- Test: раннера нет
-- Editor play / smoke: раннера нет
-- Headless / CLI: раннера нет
+- Test: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/smoke_test.gd`
+- Loop smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/loop_smoke.gd`
+- Editor play / smoke: `tools\godot\Godot_v4.7.2-stable_win64.exe --path game`
+- Headless / CLI: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`
 - Export PC: нет
 - Export mobile: нет
 - Internal deploy: класса нет

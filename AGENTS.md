@@ -33,16 +33,17 @@ Kit product domain today: only `game`. No other companion product domains are de
 
 - PC: Windows (сейчас)
 - Mobile: Android (следующая цель); iOS — later
-- Godot: `4.7`, путь к бинарнику — TBD (не в PATH); `project.godot` — `game/project.godot` (ещё не создан)
+- Godot: `4.7`, бинарник (gitignore): `tools/godot/Godot_v4.7.2-stable_win64.exe` / `_console.exe`; `project.godot` — `game/project.godot`
 - Язык: GDScript (default)
 
 ## Команды
 
-- Тесты: `раннера нет` (появится с Godot-проектом)
-- Editor play / playtest: `раннера нет`
-- Headless / CLI Godot: `раннера нет` (нужен путь к `godot`)
-- Export PC: `нет` (preset TBD, класс `release` выключен)
-- Export mobile: `нет` (Android later)
+- Тесты / smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/smoke_test.gd`
+- Loop smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/loop_smoke.gd`
+- Editor play / playtest: `tools\godot\Godot_v4.7.2-stable_win64.exe --path game`
+- Headless boot: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`
+- Export PC: `нет` (класс `release` выключен)
+- Export mobile: `нет`
 - Lint / точечная проверка: проверить относительные ссылки из этого файла и `game/AGENTS.md`
 - Deploy internal: класса нет
 

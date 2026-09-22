@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/entrance.gd" id="1"]
+
+[node name="Entrance" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Bg" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.12, 0.12, 0.14, 1)
+
+[node name="Hall" type="ColorRect" parent="."]
+offset_left = 200.0
+offset_top = 100.0
+offset_right = 1080.0
+offset_bottom = 620.0
+color = Color(0.28, 0.3, 0.32, 1)
+
+[node name="Mailboxes" type="ColorRect" parent="."]
+offset_left = 240.0
+offset_top = 140.0
+offset_right = 400.0
+offset_bottom = 320.0
+color = Color(0.4, 0.42, 0.4, 1)
+
+[node name="MailLabel" type="Label" parent="Mailboxes"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 150.0
+offset_bottom = 40.0
+text = "Ящики"
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Hint" type="Label" parent="UI"]
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 900.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 20
+text = "Подъезд"
+
+[node name="EnterButton" type="Button" parent="UI"]
+offset_left = 480.0
+offset_top = 640.0
+offset_right = 800.0
+offset_bottom = 690.0
+text = "Подняться на 9 этаж"
+
+[connection signal="pressed" from="UI/EnterButton" to="." method="_on_enter_floor_pressed"]

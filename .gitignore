@@ -1,6 +1,9 @@
 # Local agent scratch
 .conversation.md
 
+# Local Godot editor/binary (do not commit)
+tools/
+
 # Godot 4
 .godot/
 *.translation
