@@ -38,7 +38,7 @@ Kit product domain today: only `game`. No other companion product domains are de
 
 ## Команды
 
-- Тесты / smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/smoke_test.gd`
+- Тесты / smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/full_smoke.gd`
 - Loop smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/loop_smoke.gd`
 - Editor play / playtest: `tools\godot\Godot_v4.7.2-stable_win64.exe --path game`
 - Headless boot: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`

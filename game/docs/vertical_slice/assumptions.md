@@ -11,5 +11,8 @@
 | **SLICE-B2** | Город без канонического топонима; в UI — «Город» / «ЭЖК №17». | accepted (working for slice) | user override continue |
 | **SLICE-B3** | Hub slice = **квартира**. Поезд не в slice (не metaphysics, не hub). | accepted (working for slice) | user override continue |
 | S6 | Critic human-gate обойдён по явному «не останавливайся» пользователя; замечания фиксируем в review, блокеры slice снимаем working assumptions. | accepted | user override |
+| INC1 | Три этажа: «обычные» / «смещение» / «техзона» — hand-authored layouts, не один клон. | accepted | increment |
+| INC2 | Meta-boon выбирается на result screen и применяется в следующем `go_run`. | accepted | increment |
+| INC3 | Imageboard в hub — текстовый блок `/pod/`, не полноценный клиент борды. | accepted | increment |
 
 B1–B3 в `docs/world/` **не закрыты** человеком; STATUS AUTHOR TRUTH не меняем на LOCKED.

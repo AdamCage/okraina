@@ -1,21 +1,21 @@
-# review.md — vertical_slice
+# review.md — vertical_slice / increment #3
 
-Итерация: `1`.
+Итерация: `2` (increment multi-floor).
 
 ## Вердикт
 
-- Блокеров: `0` (working assumptions SLICE-B1/B2/B3 + S6 user override)
-- Выход разрешён: да для реализации slice
+- Блокеров: `0`
+- Выход разрешён: да
 - Дедлок: нет
 
 ## Секция analytics
 
 | ID | Суть | Блокер? | Статус |
 |---|---|---|---|
-| C1 | B1–B3 human gates | нет для slice | closed via SLICE-* working assumptions; world AUTHOR UNSET |
-| C2 | Critic full subagent skipped under user «не останавливайся» | нет | accepted S6 |
+| I1 | Дельта в spec зафиксирована | нет | closed |
+| I2 | B1–B3 остаются UNSET; только INC/SLICE assumptions | нет | closed |
 
 ## Вход
 
-- spec / DESIGN / assumptions: `game/docs/vertical_slice/`
-- Issue: https://github.com/AdamCage/okraina/issues/2
+- Issue #3, `game/docs/vertical_slice/*`
+- `full_smoke.gd` green

@@ -1,34 +1,43 @@
-# test-report.md — vertical_slice
+# test-report.md — vertical_slice (+ increment Issue #3)
 
 Дата: 2026-09-22
-Godot: `C:\projects\okraina\tools\godot\Godot_v4.7.2-stable_win64_console.exe` (4.7.2, gitignored)
+Godot: `tools/godot/Godot_v4.7.2-stable_win64_console.exe` (4.7.2)
 
-## Что гоняли
+## Increment прогоны
 
-| Прогон | Команда | Результат |
-|---|---|---|
-| Import | `godot --headless --path game --import` | OK |
-| Main boot | `godot --headless --path game --quit-after 3` | EXIT 0 (после deferred change_scene) |
-| Smoke files/actors | `godot --headless --path game -s res://scripts/smoke_test.gd` | `SMOKE_OK` EXIT 0 |
-| Loop hub→run→extract→hook | `godot --headless --path game -s res://scripts/loop_smoke.gd` | `LOOP_SMOKE_OK` EXIT 0 |
+| Прогон | Результат |
+|---|---|
+| `full_smoke.gd` | `FULL_SMOKE_OK` EXIT 0 — boot, F1/F2/F3 distinct, combat kill, extract+meta, boon, death+meta |
+| `loop_smoke.gd` | `LOOP_SMOKE_OK` EXIT 0 |
+| `--quit-after 3` | EXIT 0 |
+
+### Exact lines (full_smoke)
+
+```
+FULL: boot ok
+FULL: floor1 F1:e4:ex1120,120:bg0.17
+FULL: floor2 F2:e6:ex1000,620:bg0.14
+FULL: floor3 F3:e7:ex140,360:bg0.22
+FULL: combat kill ok
+FULL: extract+meta ok
+FULL: boon next-attempt ok
+FULL: death ok
+FULL: death meta ok
+FULL_SMOKE_OK
+```
 
 ## User paths
 
 | Path | Статус |
 |---|---|
-| VS1 Launch | OK (main + apartment) |
-| VS2 Enter run | OK (loop_smoke) |
-| VS3 Combat | Частично: damage/kill API в smoke; melee overlap не автотестился в headless input |
-| VS4 Death | API `finish_death` есть; полный headless death path не гонялся отдельно |
-| VS5 Extract | OK (loop_smoke + kitchen flag) |
-| VS6 Hook | OK flag `kitchen_door_unlocked`; текст осмотра — ручной play |
+| VS1 Launch | OK |
+| VS2 multi-floor | OK (3 fingerprints) |
+| VS3 Combat kill | OK headless |
+| VS4 Death | OK headless |
+| VS5 Extract | OK |
+| VS6 Hook + board/ЖЭК meta | OK |
+| INC boon next run | OK |
 
-## Намеренно не гоняли
+## Намеренно нет
 
-- Оконный playtest с клавиатурой (нет интерактивного агента)
-- Android / export
-- Полный combat balance
-
-## Красное
-
-Нет на момент отчёта.
+Android, audio, full campaign, AUTHOR resolve, train hub.

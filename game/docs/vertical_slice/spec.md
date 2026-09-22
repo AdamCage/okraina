@@ -69,3 +69,20 @@
 ## GitHub
 
 - Issue: https://github.com/AdamCage/okraina/issues/2
+- Increment: https://github.com/AdamCage/okraina/issues/3
+
+## Delta — increment multi-floor (Issue #3)
+
+### Меняется
+
+- Забег из **≥3 различных этажей** (layout / exit / враги / цвет)
+- Переход этаж→этаж через жёлтую зону; extract только с последнего
+- После death/extract — выбор **находки (boon)** на *следующую* попытку: урон / HP / скорость
+- Hub: ЖЭК-лента и блок `/pod/` отражают последний забег; kitchen-door после extract
+- Headless: boot, floors, kill, death, extract, meta, boon
+
+### Не меняется
+
+- AUTHOR TRUTH UNSET; B1–B3 не закрываем
+- Нет Android/поезда/полного лут-Diablo
+- Тон ЖЭКа / запрет спойлера тайны

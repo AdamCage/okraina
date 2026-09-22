@@ -39,7 +39,7 @@
 
 ## Commands
 
-- Test: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/smoke_test.gd`
+- Test: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/full_smoke.gd`
 - Loop smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/loop_smoke.gd`
 - Editor play / smoke: `tools\godot\Godot_v4.7.2-stable_win64.exe --path game`
 - Headless / CLI: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`

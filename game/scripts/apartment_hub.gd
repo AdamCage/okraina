@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var _hint: Label = $UI/Hint
 @onready var _notice: Label = $UI/Notice
+@onready var _board: Label = $UI/Board
 @onready var _door_panel: ColorRect = $KitchenDoor
 @onready var _door_label: Label = $KitchenDoor/DoorLabel
 @onready var _door_area: Area2D = $KitchenDoor/DoorArea
@@ -9,11 +10,14 @@ extends Node2D
 
 func _ready() -> void:
 	_notice.text = GameState.zh_ek_notice
+	_board.text = "/pod/ локальный тред\n\n%s" % GameState.board_feed
 	_hint.text = "WASD — ходить · E — взаимодействие · выйти во двор → подъезд"
+	if GameState.pending_boon != "none":
+		_hint.text += "\nНа следующий заход выбрано: %s" % GameState.pending_boon
 	_door_panel.visible = GameState.kitchen_door_unlocked
 	if GameState.kitchen_door_unlocked:
 		_door_label.text = "Дверь за кухней\n[E]"
-		_hint.text = "После выхода появилась дверь за кухней. E — осмотреть. Или выйти в подъезд."
+		_hint.text = "Дверь за кухней на месте. E — осмотреть. ЖЭК и /pod/ обновились после забега."
 
 
 func _process(_delta: float) -> void:
@@ -30,7 +34,6 @@ func _player_near_door() -> bool:
 
 func _inspect_door() -> void:
 	_hint.text = "За кухней раньше не было двери. На старом форуме кто-то спрашивал про неё. Год в шапке треда — 2002."
-	# No AUTHOR TRUTH spoiler (SLICE-B1).
 
 
 func _on_exit_zone_body_entered(body: Node2D) -> void:

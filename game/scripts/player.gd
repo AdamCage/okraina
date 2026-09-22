@@ -16,6 +16,8 @@ var _facing: Vector2 = Vector2.RIGHT
 
 func _ready() -> void:
 	add_to_group("player")
+	speed = 180.0 * GameState.boon_speed_mult()
+	attack_damage = 25 + GameState.boon_damage_bonus()
 	hp_changed.emit(GameState.player_hp, GameState.player_max_hp)
 
 

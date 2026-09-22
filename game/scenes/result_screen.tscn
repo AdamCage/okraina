@@ -27,37 +27,63 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -320.0
-offset_top = -160.0
-offset_right = 320.0
-offset_bottom = 160.0
+offset_left = -360.0
+offset_top = -220.0
+offset_right = 360.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Title" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 24.0
-offset_right = 600.0
-offset_bottom = 64.0
+offset_top = 20.0
+offset_right = 680.0
+offset_bottom = 56.0
 theme_override_font_sizes/font_size = 24
 text = "Title"
 
 [node name="Body" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 80.0
-offset_right = 600.0
-offset_bottom = 220.0
+offset_top = 64.0
+offset_right = 680.0
+offset_bottom = 200.0
 autowrap_mode = 3
 text = "Body"
 
+[node name="BoonRow" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 210.0
+offset_right = 680.0
+offset_bottom = 270.0
+theme_override_constants/separation = 12
+
+[node name="BoonDamage" type="Button" parent="Panel/BoonRow"]
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+text = "Перегрузка (+урон)"
+
+[node name="BoonMaxhp" type="Button" parent="Panel/BoonRow"]
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+text = "Аптечка (+HP)"
+
+[node name="BoonSpeed" type="Button" parent="Panel/BoonRow"]
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+text = "Лёгкие ноги"
+
 [node name="Continue" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 200.0
-offset_top = 240.0
-offset_right = 440.0
-offset_bottom = 290.0
+offset_left = 220.0
+offset_top = 300.0
+offset_right = 500.0
+offset_bottom = 350.0
 text = "Вернуться домой"
 
+[connection signal="pressed" from="Panel/BoonRow/BoonDamage" to="." method="_on_boon_damage"]
+[connection signal="pressed" from="Panel/BoonRow/BoonMaxhp" to="." method="_on_boon_maxhp"]
+[connection signal="pressed" from="Panel/BoonRow/BoonSpeed" to="." method="_on_boon_speed"]
 [connection signal="pressed" from="Panel/Continue" to="." method="_on_continue_pressed"]

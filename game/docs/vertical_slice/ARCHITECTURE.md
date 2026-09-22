@@ -26,6 +26,12 @@ result_screen.tscn  → apartment
 - Player `hp_changed`, `died`
 - ExitZone `body_entered` → extract / hint
 
-## Данные
+## Этажи (increment)
 
-Нет `.tres` в slice; константы в скриптах / DESIGN.md.
+`GameState.current_floor` 1..3 → `run_floor._apply_floor_layout`:
+разные obstacle/exit/spawns/bg. Exit → `on_exit_reached` → advance или extract.
+
+## Meta
+
+`pending_boon` → `active_boon` на `go_run`. Result screen выбор.
+Hub: `zh_ek_notice` + `board_feed` после `_seal_run_stats`.
