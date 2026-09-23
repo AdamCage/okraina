@@ -171,7 +171,15 @@ func _kill(gs: Node, kind: String) -> bool:
 	return int(gs.get("kills")) == before + 1
 
 
+func _clear_actors() -> void:
+	for node in get_nodes_in_group("player"):
+		node.free()
+	for node in get_nodes_in_group("enemies"):
+		node.free()
+
+
 func _zone_arms_meter() -> bool:
+	_clear_actors()
 	var player: Node = load("res://scenes/player.tscn").instantiate()
 	var meter: Node = load("res://scenes/enemy.tscn").instantiate()
 	meter.set("kind", "meter")
@@ -188,9 +196,7 @@ func _zone_arms_meter() -> bool:
 	Input.action_release("dodge")
 	var covered: Array = player.get("_covered")
 	var armed := covered.has(meter.get_instance_id())
-	player.queue_free()
-	meter.queue_free()
-	await _frames(2)
+	_clear_actors()
 	return armed
 
 
@@ -198,6 +204,7 @@ func _meter_strike(early: bool) -> bool:
 	var gs := root.get_node("GameState")
 	gs.set("player_hp", 100)
 	gs.set("floor_offer_open", false)
+	_clear_actors()
 	var player: Node = load("res://scenes/player.tscn").instantiate()
 	var meter: Node = load("res://scenes/enemy.tscn").instantiate()
 	meter.set("kind", "meter")
@@ -226,9 +233,7 @@ func _meter_strike(early: bool) -> bool:
 		if result != "":
 			break
 	var hp := int(gs.get("player_hp"))
-	player.queue_free()
-	meter.queue_free()
-	await _frames(2)
+	_clear_actors()
 	if not pressed:
 		return false
 	if early:
