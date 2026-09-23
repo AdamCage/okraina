@@ -43,8 +43,12 @@ func _physics_process(delta: float) -> void:
 		start_dodge()
 	_tick_cover(delta)
 	if _dodge_left > 0.0:
-		_dodge_left = maxf(0.0, _dodge_left - delta)
-		velocity = _dodge_dir * DODGE_SPEED
+		var step := minf(delta, _dodge_left)
+		_dodge_left -= step
+		if delta > 0.0:
+			velocity = _dodge_dir * DODGE_SPEED * (step / delta)
+		else:
+			velocity = Vector2.ZERO
 		move_and_slide()
 		if _dodge_left <= 0.0:
 			_paint_idle()

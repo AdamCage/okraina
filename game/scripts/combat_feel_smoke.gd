@@ -34,7 +34,14 @@ func _run() -> void:
 		quit(1)
 		return
 	var hp_before: int = int(gs.get("player_hp"))
-	player.call("start_dodge")
+	await process_frame
+	Input.action_press("dodge")
+	player.call("_physics_process", 0.016)
+	Input.action_release("dodge")
+	if not bool(player.call("is_dodging")):
+		push_error("COMBAT: dodge action did not start the step")
+		quit(1)
+		return
 	if not await _wait_until(func() -> bool: return not bool(player.call("is_dodging")), 40):
 		push_error("COMBAT: dodge did not finish")
 		quit(1)

@@ -15,7 +15,7 @@ Godot: `4.7.2.stable` (`godot` on PATH, linux headless).
 
 | Путь | Как проверяли |
 |---|---|
-| CF1 | Smoke: Shift в подготовке, игрок возвращён в зону 32 px, удар `absorbed`, HP тот же |
+| CF1 | Smoke: действие `dodge` в подготовке, игрок возвращён в зону 32 px, удар `absorbed`, HP тот же |
 | CF2 | Следующий удар того же врага без dodge: `hit`, HP −18 |
 | CF3 | `full_smoke` добивает врага через `take_damage`, `kills` растёт |
 | CF4 | `full_smoke`: `take_damage(999)` → `death` |
