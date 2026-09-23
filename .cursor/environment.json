@@ -1,0 +1,4 @@
+{
+  "name": "Okraina (Godot 4.7.2 headless)",
+  "install": "bash .cursor/install.sh"
+}
