@@ -16,6 +16,7 @@
 - Godot 4.7 + GDScript проект в `game/`
 - Сцены: Main → ApartmentHub → Entrance → RunFloor → Result
 - Движение WASD/стрелки, атака ближняя (ЛКМ / Space), шаг в сторону (Shift) — см. [`../combat_feel/spec.md`](../combat_feel/spec.md)
+- В начале этажа выбор одной находки из трёх — см. [`../run_builds/spec.md`](../run_builds/spec.md)
 - 1 тип врага, спавн на этаже, HP игрока, смерть → restart hub
 - Выход с этажа (дверь «на улицу/другой район») → успех → hub
 - UI: HP, краткий статус этажа, объявление ЖЭКа (тон мира)

@@ -28,14 +28,92 @@ var board_feed: String = " /pod/ — пока тихо. Аноны спят ил
 ## For tests: fingerprint of last built floor layout.
 var last_floor_fingerprint: String = ""
 var floor_fingerprints: PackedStringArray = PackedStringArray()
+var floor_offer_open: bool = false
+var pending_offer_ids: Array[String] = []
+var picked_offer_ids: Array[String] = []
+var offer_damage: int = 0
+var offer_speed_mult: float = 1.0
+var offer_attack_cd_mult: float = 1.0
+var offer_max_hp: int = 0
+var offer_dodge_cd: float = 0.0
+var offer_dodge_speed: float = 0.0
+
+const _OfferCatalog := preload("res://scripts/offer_catalog.gd")
 
 
 func apply_boon_for_run() -> void:
 	active_boon = pending_boon
-	player_max_hp = base_max_hp
-	if active_boon == "maxhp":
-		player_max_hp = base_max_hp + 40
+	_apply_max_hp()
 	player_hp = player_max_hp
+
+
+func clear_run_offers() -> void:
+	picked_offer_ids = []
+	pending_offer_ids = []
+	floor_offer_open = false
+	_recompute_offers()
+
+
+func roll_floor_offers() -> void:
+	var pool: Array[String] = []
+	for entry in _OfferCatalog.all():
+		var id := str(entry["id"])
+		if not picked_offer_ids.has(id):
+			pool.append(id)
+	if pool.size() < 3:
+		pool.clear()
+		for entry in _OfferCatalog.all():
+			pool.append(str(entry["id"]))
+	pool.shuffle()
+	pending_offer_ids = []
+	var seen := {}
+	for id in pool:
+		if seen.has(id):
+			continue
+		seen[id] = true
+		pending_offer_ids.append(id)
+		if pending_offer_ids.size() == 3:
+			break
+	floor_offer_open = pending_offer_ids.size() == 3
+
+
+func pick_offer(index: int) -> String:
+	if not floor_offer_open or index < 0 or index >= pending_offer_ids.size():
+		return ""
+	var id := pending_offer_ids[index]
+	picked_offer_ids.append(id)
+	_recompute_offers()
+	_apply_max_hp()
+	var heal := int(_OfferCatalog.get_by_id(id).get("heal", 0))
+	if heal > 0:
+		player_hp = mini(player_max_hp, player_hp + heal)
+	else:
+		player_hp = mini(player_hp, player_max_hp)
+	floor_offer_open = false
+	pending_offer_ids = []
+	return id
+
+
+func _apply_max_hp() -> void:
+	var bonus := 40 if active_boon == "maxhp" else 0
+	player_max_hp = base_max_hp + bonus + offer_max_hp
+
+
+func _recompute_offers() -> void:
+	offer_damage = 0
+	offer_speed_mult = 1.0
+	offer_attack_cd_mult = 1.0
+	offer_max_hp = 0
+	offer_dodge_cd = 0.0
+	offer_dodge_speed = 0.0
+	for id in picked_offer_ids:
+		var entry := _OfferCatalog.get_by_id(id)
+		offer_damage += int(entry.get("damage", 0))
+		offer_max_hp += int(entry.get("max_hp", 0))
+		offer_speed_mult *= float(entry.get("speed_mult", 1.0))
+		offer_attack_cd_mult *= float(entry.get("attack_cd_mult", 1.0))
+		offer_dodge_cd += float(entry.get("dodge_cd", 0.0))
+		offer_dodge_speed += float(entry.get("dodge_speed", 0.0))
 
 
 func boon_damage_bonus() -> int:
@@ -84,6 +162,7 @@ func go_entrance() -> void:
 
 
 func go_run() -> void:
+	clear_run_offers()
 	apply_boon_for_run()
 	current_floor = 1
 	floors_reached = 1
