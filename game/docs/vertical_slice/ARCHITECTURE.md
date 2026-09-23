@@ -16,8 +16,8 @@ result_screen.tscn  → apartment
 
 ## Физика / группы
 
-- Player `collision_layer=2`, group `player`
-- Enemy `collision_layer=4`, group `enemies`
+- Player `collision_layer=2`, group `player`; шаг — `combat_feel`
+- Enemy `collision_layer=4`, group `enemies`; удар с подготовкой — `combat_feel`
 - AttackArea mask=4 (enemy)
 - ExitZone mask=2 (player)
 

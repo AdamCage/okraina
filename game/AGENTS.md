@@ -16,7 +16,7 @@
 - Путь к `project.godot`: `game/project.godot`
 - Бинарник `godot`: `tools/godot/Godot_v4.7.2-stable_win64.exe` (и `_console.exe`; каталог `tools/` в `.gitignore`)
 - Язык: GDScript (default)
-- Контуры: `game/docs/vertical_slice/` …
+- Контуры: `game/docs/vertical_slice/`, `game/docs/combat_feel/` (E1) …
 - Платформы: Windows now; Android next; iOS later
 - Export presets: TBD
 - Store каналы: нет (класс `release` выключен)
@@ -40,6 +40,7 @@
 ## Commands
 
 - Test: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/full_smoke.gd`
+- Combat smoke (E1): `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/combat_feel_smoke.gd`
 - Loop smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/loop_smoke.gd`
 - Editor play / smoke: `tools\godot\Godot_v4.7.2-stable_win64.exe --path game`
 - Headless / CLI: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`

@@ -19,7 +19,7 @@
 | Сущность | Правило |
 |---|---|
 | Player | HP 100; move 180 px/s; melee 25 dmg, CD 0.4s |
-| Enemy | HP 40; chase; touch 12 dmg/s; 5–7 штук |
+| Enemy | HP 40; chase; подготовка 0.50 с и удар 18 (не касательный DPS); спавн на этаже |
 | ExitZone | body_entered player → extract |
 | RunState | tracking kills, extracted flag, kitchen_door_unlocked |
 
