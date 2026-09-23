@@ -35,8 +35,8 @@ func _ready() -> void:
 
 
 func apply_build() -> void:
-	attack_damage = 25 + GameState.boon_damage_bonus() + GameState.offer_damage + GameState.lead_damage
-	speed = 180.0 * GameState.boon_speed_mult() * GameState.offer_speed_mult * GameState.lead_speed_mult
+	attack_damage = 25 + GameState.boon_damage_bonus() + GameState.offer_damage + GameState.lead_damage + GameState.notice_damage
+	speed = 180.0 * GameState.boon_speed_mult() * GameState.offer_speed_mult * GameState.lead_speed_mult * GameState.notice_speed_mult
 	attack_cooldown = maxf(0.20, 0.40 * GameState.offer_attack_cd_mult * GameState.lead_attack_cd_mult)
 	_dodge_cooldown_sec = maxf(0.25, DODGE_COOLDOWN_SEC + GameState.offer_dodge_cd)
 	_dodge_speed = DODGE_SPEED + GameState.offer_dodge_speed
