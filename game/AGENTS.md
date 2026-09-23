@@ -53,3 +53,4 @@
 - Game skill: [`../.gamedev-sdlc/game/SKILL.md`](../.gamedev-sdlc/game/SKILL.md)
 - Design canon: [`../.gamedev-sdlc/game/design.md`](../.gamedev-sdlc/game/design.md)
 - World SoT: [`../docs/world/`](../docs/world/)
+- Программа этапов: [`../docs/program/spec.md`](../docs/program/spec.md) (следующий этап — E1)
