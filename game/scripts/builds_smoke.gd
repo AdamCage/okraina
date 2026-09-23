@@ -18,6 +18,7 @@ func _run() -> void:
 		quit(1)
 		return
 	var failed := 0
+	gs.call("reset_hub_meta")
 	if _Catalog.all().size() != 10:
 		push_error("BUILDS: pool %d" % _Catalog.all().size())
 		failed += 1

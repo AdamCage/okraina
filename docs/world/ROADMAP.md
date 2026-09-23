@@ -14,10 +14,10 @@ Lore bible v0.1: `docs/world/`. Дискового save нет.
 
 ## Следующий шаг
 
-**E4 — один слот, который переживает выход.** Класс `feature-cycle`.
-Артефакты: `game/docs/save_slot/`. Дисковый save до спеки E4 не обещать.
+**E5 — имиджборда как система лидов.** Класс `feature-cycle`.
+Артефакты: `game/docs/imageboard/`.
 
-E1–E3 уже идут своими контурами: `game/docs/combat_feel/`, `game/docs/run_builds/`, `game/docs/run_floors/`.
+E1–E4 уже идут своими контурами. Дисковый слот — только `game/docs/save_slot/`.
 Не включать класс `release`.
 
 ## Порядок

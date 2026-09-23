@@ -16,6 +16,7 @@ func _run() -> void:
 		quit(1)
 		return
 	var failed := 0
+	gs.call("reset_hub_meta")
 	gs.set("player_hp", 100)
 	gs.set("player_max_hp", 100)
 

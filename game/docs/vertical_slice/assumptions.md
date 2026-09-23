@@ -5,7 +5,7 @@
 | S1 | Placeholder-арт (ColorRect / простые Shape) ок для acceptance. | accepted | slice |
 | S2 | Один этаж-арена ≈ 24×18 тайлов логики; 4–8 врагов. | accepted | slice |
 | S3 | Одна атака melee hitbox; без оружия/лута в slice. | accepted | slice |
-| S4 | Нет save между сессиями в slice (состояние только runtime). | accepted | slice |
+| S4 | Нет save между сессиями в самом slice. Диск вводит E4: [`../save_slot/spec.md`](../save_slot/spec.md). | superseded | E4 |
 | S5 | Русский UI-текст. | accepted | product |
 | **SLICE-B1** | AUTHOR TRUTH остаётся **UNSET**. Для slice: улики не выбирают «правильную» теорию; крючок двери — только странность быта. **Не** locked AUTHOR MODEL. | accepted (working for slice) | user override continue |
 | **SLICE-B2** | Город без канонического топонима; в UI — «Город» / «ЭЖК №17». | accepted (working for slice) | user override continue |
