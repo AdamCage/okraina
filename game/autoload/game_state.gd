@@ -84,8 +84,11 @@ func pick_offer(index: int) -> String:
 	picked_offer_ids.append(id)
 	_recompute_offers()
 	_apply_max_hp()
-	var heal := int(_OfferCatalog.get_by_id(id).get("heal", 0))
-	if heal > 0:
+	var entry := _OfferCatalog.get_by_id(id)
+	var heal := int(entry.get("heal", 0))
+	if bool(entry.get("fill", false)):
+		player_hp = player_max_hp
+	elif heal > 0:
 		player_hp = mini(player_max_hp, player_hp + heal)
 	else:
 		player_hp = mini(player_hp, player_max_hp)

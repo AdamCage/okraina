@@ -9,7 +9,7 @@ static func all() -> Array[Dictionary]:
 		{"id": "sweater", "title": "Второй свитер", "detail": "+25 к максимуму HP", "max_hp": 25, "heal": 25},
 		{"id": "short_swing", "title": "Короткий замах", "detail": "удар чаще", "attack_cd_mult": 0.8},
 		{"id": "another_brick", "title": "Ещё кирпич", "detail": "+8 к удару", "damage": 8},
-		{"id": "tap_water", "title": "Вода из-под крана", "detail": "+20 к максимуму HP", "max_hp": 20, "heal": 20},
+		{"id": "tap_water", "title": "Вода из-под крана", "detail": "+20 к максимуму HP", "max_hp": 20, "fill": true},
 		{"id": "slippers", "title": "Домашние тапки", "detail": "быстрее шаг", "speed_mult": 1.25},
 		{"id": "habit", "title": "Привычка уходить", "detail": "шаг чаще", "dodge_cd": -0.20},
 		{"id": "long_stride", "title": "Широкий шаг", "detail": "длиннее уход", "dodge_speed": 140.0},

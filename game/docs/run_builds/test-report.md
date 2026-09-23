@@ -19,5 +19,6 @@ Godot: `4.7.2.stable`, linux headless.
 | RB2 | После `advance_floor` список и стат на месте, выбор этажа снова открыт |
 | RB3 | `take_damage(999)` → `death`; `finish_extract` → `extract` |
 | RB4 | Новый `go_run` обнуляет `picked_offer_ids` |
+| tap_water | Раненый (60 HP) после находки становится 120/120 |
 
 Клавиши 1/2/3 записаны в InputMap и в `offer_panel.gd`. Headless жмёт выбор через `pick_offer`, это путь спеки рядом с клавишей.

@@ -96,6 +96,32 @@ func _run() -> void:
 	else:
 		print("BUILDS: RB3 extract ok")
 
+	var filled := false
+	for _attempt in 24:
+		gs.call("go_run")
+		if not await _wait_choice(gs):
+			push_error("BUILDS: tap_water setup missing")
+			quit(1)
+			return
+		var offered: Array = gs.get("pending_offer_ids")
+		var index := offered.find("tap_water")
+		if index < 0:
+			continue
+		gs.set("player_hp", 60)
+		if str(gs.call("pick_offer", index)) != "tap_water":
+			push_error("BUILDS: tap_water pick")
+			failed += 1
+		elif int(gs.get("player_max_hp")) != 120 or int(gs.get("player_hp")) != 120:
+			push_error("BUILDS: tap_water wounded %s/%s" % [gs.get("player_hp"), gs.get("player_max_hp")])
+			failed += 1
+		else:
+			print("BUILDS: tap_water fills to new max")
+		filled = true
+		break
+	if not filled:
+		push_error("BUILDS: tap_water never offered")
+		failed += 1
+
 	if failed == 0:
 		print("BUILDS_SMOKE_OK")
 		quit(0)
@@ -114,9 +140,12 @@ func _stat_matches(id: String, player: Node, gs: Node, check_heal: bool) -> bool
 	if entry.has("max_hp"):
 		ok = ok and int(gs.get("player_max_hp")) == 100 + int(entry["max_hp"])
 		if check_heal:
-			var heal := int(entry.get("heal", 0))
-			var expect := mini(100 + int(entry["max_hp"]), 100 + heal)
-			ok = ok and int(gs.get("player_hp")) == expect
+			if bool(entry.get("fill", false)):
+				ok = ok and int(gs.get("player_hp")) == int(gs.get("player_max_hp"))
+			else:
+				var heal := int(entry.get("heal", 0))
+				var expect := mini(100 + int(entry["max_hp"]), 100 + heal)
+				ok = ok and int(gs.get("player_hp")) == expect
 	if entry.has("speed_mult"):
 		ok = ok and is_equal_approx(float(player.get("speed")), 180.0 * float(entry["speed_mult"]))
 	if entry.has("attack_cd_mult"):
