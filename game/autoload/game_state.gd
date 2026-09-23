@@ -7,7 +7,8 @@ const SCENE_ENTRANCE := "res://scenes/entrance.tscn"
 const SCENE_RUN := "res://scenes/run_floor.tscn"
 const SCENE_RESULT := "res://scenes/result_screen.tscn"
 
-const MAX_FLOORS := 3
+const FLOOR_MIN := 4
+const FLOOR_MAX := 6
 
 var player_hp: int = 100
 var player_max_hp: int = 100
@@ -37,6 +38,10 @@ var offer_attack_cd_mult: float = 1.0
 var offer_max_hp: int = 0
 var offer_dodge_cd: float = 0.0
 var offer_dodge_speed: float = 0.0
+var next_run_seed: int = -1
+var run_seed: int = 0
+var run_length: int = FLOOR_MIN
+var preset_ids: Array[String] = []
 
 const _OfferCatalog := preload("res://scripts/offer_catalog.gd")
 
@@ -167,6 +172,16 @@ func go_entrance() -> void:
 func go_run() -> void:
 	clear_run_offers()
 	apply_boon_for_run()
+	if next_run_seed >= 0:
+		run_seed = next_run_seed
+	else:
+		run_seed = int(randi())
+	next_run_seed = -1
+	var plan := FloorCatalog.sequence(run_seed)
+	run_length = int(plan["length"])
+	preset_ids = []
+	for id in plan["ids"]:
+		preset_ids.append(str(id))
 	current_floor = 1
 	floors_reached = 1
 	kills = 0
@@ -175,7 +190,7 @@ func go_run() -> void:
 
 
 func advance_floor() -> void:
-	if current_floor >= MAX_FLOORS:
+	if current_floor >= run_length:
 		finish_extract()
 		return
 	current_floor += 1
@@ -186,7 +201,7 @@ func advance_floor() -> void:
 
 
 func on_exit_reached() -> void:
-	if current_floor >= MAX_FLOORS:
+	if current_floor >= run_length:
 		finish_extract()
 	else:
 		advance_floor()

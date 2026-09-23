@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "pipes"
+zone = "tech"
+title = "Трубы"
+bg = Color(0.19, 0.21, 0.16, 1)
+player_spawn = Vector2(180, 360)
+exit_pos = Vector2(1120, 360)
+obstacles = Array[Rect2]([Rect2(300, 80, 40, 560), Rect2(640, 80, 40, 560), Rect2(980, 80, 40, 560)])
+spawn_points = PackedVector2Array(200, 160, 480, 500, 800, 180, 1100, 520)
+spawn_kinds = PackedStringArray("meter", "tenant", "meter", "meter")

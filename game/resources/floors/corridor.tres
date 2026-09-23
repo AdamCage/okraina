@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "corridor"
+zone = "shift"
+title = "Коридор буквой Г"
+bg = Color(0.14, 0.16, 0.22, 1)
+player_spawn = Vector2(200, 560)
+exit_pos = Vector2(1000, 620)
+obstacles = Array[Rect2]([Rect2(280, 120, 720, 100), Rect2(280, 120, 120, 420)])
+spawn_points = PackedVector2Array(500, 320, 700, 360, 900, 300, 1100, 280, 600, 500, 800, 480)
+spawn_kinds = PackedStringArray("tenant", "tenant", "meter", "tenant", "meter", "tenant")

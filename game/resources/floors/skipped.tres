@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "skipped"
+zone = "shift"
+title = "Пропущенный номер"
+bg = Color(0.18, 0.16, 0.22, 1)
+player_spawn = Vector2(160, 200)
+exit_pos = Vector2(1080, 200)
+obstacles = Array[Rect2]([Rect2(480, 160, 100, 400)])
+spawn_points = PackedVector2Array(360, 400, 700, 480, 900, 360, 1040, 480)
+spawn_kinds = PackedStringArray("tenant", "meter", "tenant", "meter")

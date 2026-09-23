@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "lift"
+zone = "shift"
+title = "Лифт до 16-го"
+bg = Color(0.15, 0.18, 0.24, 1)
+player_spawn = Vector2(640, 560)
+exit_pos = Vector2(640, 120)
+obstacles = Array[Rect2]([Rect2(520, 260, 240, 180)])
+spawn_points = PackedVector2Array(300, 300, 980, 300, 300, 480, 980, 480)
+spawn_kinds = PackedStringArray("tenant", "meter", "meter", "tenant")
