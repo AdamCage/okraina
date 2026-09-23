@@ -17,6 +17,7 @@ func _run() -> void:
 		quit(1)
 		return
 	var failed := 0
+	gs.call("reset_hub_meta")
 	if int(gs.get("next_run_seed")) != -1:
 		push_error("FLOORS: next_run_seed did not start at -1")
 		failed += 1

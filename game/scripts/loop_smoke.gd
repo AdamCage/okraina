@@ -15,6 +15,7 @@ func _run() -> void:
 		quit(1)
 		return
 
+	gs.call("reset_hub_meta")
 	change_scene_to_file("res://scenes/apartment_hub.tscn")
 	await process_frame
 	await process_frame

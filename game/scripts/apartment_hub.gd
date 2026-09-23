@@ -18,6 +18,7 @@ func _ready() -> void:
 	if GameState.kitchen_door_unlocked:
 		_door_label.text = "Дверь за кухней\n[E]"
 		_hint.text = "Дверь за кухней на месте. E — осмотреть. ЖЭК и /pod/ обновились после забега."
+	GameState.save_slot()
 
 
 func _process(_delta: float) -> void:

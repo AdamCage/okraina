@@ -15,6 +15,7 @@ func _run() -> void:
 		quit(1)
 		return
 	var failed := 0
+	gs.call("reset_hub_meta")
 
 	# --- boot ---
 	change_scene_to_file("res://scenes/apartment_hub.tscn")

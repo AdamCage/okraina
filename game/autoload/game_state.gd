@@ -1,6 +1,6 @@
 extends Node
 
-## Runtime state. No disk save. Meta boon persists across attempts in-session.
+## Runtime state. Hub meta also lives in user://slot.json. See game/docs/save_slot/.
 
 const SCENE_APARTMENT := "res://scenes/apartment_hub.tscn"
 const SCENE_ENTRANCE := "res://scenes/entrance.tscn"
@@ -9,6 +9,7 @@ const SCENE_RESULT := "res://scenes/result_screen.tscn"
 
 const FLOOR_MIN := 4
 const FLOOR_MAX := 6
+const _SlotStore := preload("res://scripts/slot_store.gd")
 
 var player_hp: int = 100
 var player_max_hp: int = 100
@@ -24,8 +25,8 @@ var last_floors: int = 0
 ## Pending choice after a run; becomes active_boon on next go_run.
 var pending_boon: String = "none" # none | damage | maxhp | speed
 var active_boon: String = "none"
-var zh_ek_notice: String = "В связи с повторным появлением лестничных площадок между 14-м и 15-м этажами просьба не оставлять там велосипеды."
-var board_feed: String = " /pod/ — пока тихо. Аноны спят или зависли в лифте."
+var zh_ek_notice: String = _SlotStore.DEFAULT_NOTICE
+var board_feed: String = _SlotStore.DEFAULT_BOARD
 ## For tests: fingerprint of last built floor layout.
 var last_floor_fingerprint: String = ""
 var floor_fingerprints: PackedStringArray = PackedStringArray()
@@ -44,6 +45,32 @@ var run_length: int = FLOOR_MIN
 var preset_ids: Array[String] = []
 
 const _OfferCatalog := preload("res://scripts/offer_catalog.gd")
+
+
+func _ready() -> void:
+	_SlotStore.load_into(self)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_slot()
+
+
+func save_slot() -> bool:
+	return _SlotStore.save_from(self)
+
+
+func reset_hub_meta() -> void:
+	_SlotStore.wipe_slot()
+	pending_boon = "none"
+	active_boon = "none"
+	extracted_once = false
+	kitchen_door_unlocked = false
+	last_result = ""
+	last_kills = 0
+	last_floors = 0
+	zh_ek_notice = _SlotStore.DEFAULT_NOTICE
+	board_feed = _SlotStore.DEFAULT_BOARD
 
 
 func apply_boon_for_run() -> void:
