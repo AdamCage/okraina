@@ -30,6 +30,9 @@ func is_telegraphing() -> bool:
 
 
 func _physics_process(delta: float) -> void:
+	if GameState.floor_offer_open:
+		velocity = Vector2.ZERO
+		return
 	var player := get_tree().get_first_node_in_group("player") as Node2D
 	match phase:
 		Phase.CHASE:

@@ -16,6 +16,8 @@ const STRIKE_RANGE := 56.0
 var _attack_cd: float = 0.0
 var _facing: Vector2 = Vector2.RIGHT
 var _dodge_cd: float = 0.0
+var _dodge_cooldown_sec: float = DODGE_COOLDOWN_SEC
+var _dodge_speed: float = DODGE_SPEED
 var _dodge_left: float = 0.0
 var _dodge_dir: Vector2 = Vector2.RIGHT
 var _iframe: bool = false
@@ -29,13 +31,23 @@ var _covered: Array[int] = []
 
 func _ready() -> void:
 	add_to_group("player")
-	speed = 180.0 * GameState.boon_speed_mult()
-	attack_damage = 25 + GameState.boon_damage_bonus()
+	apply_build()
+
+
+func apply_build() -> void:
+	attack_damage = 25 + GameState.boon_damage_bonus() + GameState.offer_damage
+	speed = 180.0 * GameState.boon_speed_mult() * GameState.offer_speed_mult
+	attack_cooldown = maxf(0.20, 0.40 * GameState.offer_attack_cd_mult)
+	_dodge_cooldown_sec = maxf(0.25, DODGE_COOLDOWN_SEC + GameState.offer_dodge_cd)
+	_dodge_speed = DODGE_SPEED + GameState.offer_dodge_speed
 	hp_changed.emit(GameState.player_hp, GameState.player_max_hp)
 
 
 func _physics_process(delta: float) -> void:
 	if GameState.player_hp <= 0:
+		return
+	if GameState.floor_offer_open:
+		velocity = Vector2.ZERO
 		return
 	_attack_cd = maxf(0.0, _attack_cd - delta)
 	_dodge_cd = maxf(0.0, _dodge_cd - delta)
@@ -46,7 +58,7 @@ func _physics_process(delta: float) -> void:
 		var step := minf(delta, _dodge_left)
 		_dodge_left -= step
 		if delta > 0.0:
-			velocity = _dodge_dir * DODGE_SPEED * (step / delta)
+			velocity = _dodge_dir * _dodge_speed * (step / delta)
 		else:
 			velocity = Vector2.ZERO
 		move_and_slide()
@@ -66,7 +78,7 @@ func _physics_process(delta: float) -> void:
 func start_dodge() -> void:
 	if GameState.player_hp <= 0 or _dodge_cd > 0.0:
 		return
-	_dodge_cd = DODGE_COOLDOWN_SEC
+	_dodge_cd = _dodge_cooldown_sec
 	_dodge_left = DODGE_STEP_SEC
 	_dodge_dir = _facing
 	_iframe = true

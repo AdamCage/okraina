@@ -16,6 +16,7 @@ const PLAYER_SCENE := preload("res://scenes/player.tscn")
 @onready var _hud_notice: Label = $HUD/Notice
 @onready var _exit_hint: Label = $HUD/ExitHint
 @onready var _boon_label: Label = $HUD/BoonLabel
+var _offer_label: Label
 
 
 func _ready() -> void:
@@ -36,6 +37,15 @@ func _ready() -> void:
 	player.add_child(cam)
 	cam.make_current()
 	_spawn_enemies()
+	_offer_label = Label.new()
+	_offer_label.position = Vector2(24, 124)
+	_offer_label.size = Vector2(900, 32)
+	$HUD.add_child(_offer_label)
+	GameState.roll_floor_offers()
+	var panel := preload("res://scripts/offer_panel.gd").new()
+	panel.chosen.connect(_on_offer_chosen)
+	add_child(panel)
+	_refresh_offer_label()
 
 
 func _boon_ru(id: String) -> String:
@@ -140,6 +150,24 @@ func _spawn_enemies() -> void:
 		var e := ENEMY_SCENE.instantiate() as CharacterBody2D
 		e.position = child.position
 		_world.add_child(e)
+
+
+func _on_offer_chosen(_offer_id: String) -> void:
+	_refresh_offer_label()
+	_on_hp_changed(GameState.player_hp, GameState.player_max_hp)
+
+
+func _refresh_offer_label() -> void:
+	if _offer_label == null:
+		return
+	if GameState.picked_offer_ids.is_empty():
+		_offer_label.text = "На этаже: ещё ничего"
+		return
+	var names: PackedStringArray = PackedStringArray()
+	for id in GameState.picked_offer_ids:
+		var entry := preload("res://scripts/offer_catalog.gd").get_by_id(id)
+		names.append(str(entry.get("title", id)))
+	_offer_label.text = "На этаже: %s" % ", ".join(names)
 
 
 func _on_hp_changed(current: int, maximum: int) -> void:
