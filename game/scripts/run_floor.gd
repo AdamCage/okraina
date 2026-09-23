@@ -20,15 +20,22 @@ var _offer_label: Label
 
 
 func _ready() -> void:
-	_apply_floor_layout(GameState.current_floor)
+	_obstacle.visible = false
+	_obstacle_b.visible = false
+	var preset := _preset_for_current_floor()
+	_apply_preset(preset)
 	_hud_notice.text = GameState.zh_ek_notice
 	var boon_ru := _boon_ru(GameState.active_boon)
 	_boon_label.text = "С собой: %s" % boon_ru
-	_exit_hint.text = "Жёлтая зона — дальше по дому. Этаж %d/%d." % [GameState.current_floor, GameState.MAX_FLOORS]
-	if GameState.current_floor >= GameState.MAX_FLOORS:
+	_hud_info.offset_right = 1200
+	if GameState.current_floor >= GameState.run_length:
+		_exit_label.text = "ВЫХОД"
 		_exit_hint.text = "Последний этаж забега. Жёлтая зона — выход во двор / другой район."
+	else:
+		_exit_label.text = "ДАЛЬШЕ"
+		_exit_hint.text = "Жёлтая зона — дальше по дому. Этаж %d/%d." % [GameState.current_floor, GameState.run_length]
 	var player := PLAYER_SCENE.instantiate() as CharacterBody2D
-	player.position = _player_spawn_for_floor(GameState.current_floor)
+	player.position = preset.player_spawn
 	_world.add_child(player)
 	player.hp_changed.connect(_on_hp_changed)
 	_on_hp_changed(GameState.player_hp, GameState.player_max_hp)
@@ -60,94 +67,68 @@ func _boon_ru(id: String) -> String:
 			return "ничего"
 
 
-func _player_spawn_for_floor(floor_i: int) -> Vector2:
-	match floor_i:
-		1:
-			return Vector2(160, 360)
-		2:
-			return Vector2(200, 560)
-		_:
-			return Vector2(640, 360)
+func _preset_for_current_floor() -> FloorPreset:
+	var index := GameState.current_floor - 1
+	if index < 0 or index >= GameState.preset_ids.size():
+		push_error("RUN: no preset for floor %d" % GameState.current_floor)
+		return FloorCatalog.all()[0]
+	return FloorCatalog.get_by_id(GameState.preset_ids[index])
 
 
-func _apply_floor_layout(floor_i: int) -> void:
-	# Clear old spawn markers
+func _apply_preset(preset: FloorPreset) -> void:
 	for c in _spawn_points.get_children():
 		c.free()
-	var enemy_count := 0
-	var exit_pos := Vector2.ZERO
-	var bg := Color(0.16, 0.17, 0.19)
-	match floor_i:
-		1:
-			# Open hall, exit NE
-			bg = Color(0.17, 0.19, 0.18)
-			_obstacle.visible = true
-			_obstacle.position = Vector2(520, 280)
-			_obstacle.size = Vector2(240, 80)
-			_obstacle_b.visible = false
-			exit_pos = Vector2(1120, 120)
-			_exit_label.text = "ДАЛЬШЕ ↑"
-			enemy_count = 4
-			_add_spawns([Vector2(700, 180), Vector2(900, 200), Vector2(1000, 400), Vector2(850, 520)])
-		2:
-			# L-corridor feel, exit south
-			bg = Color(0.14, 0.16, 0.22)
-			_obstacle.visible = true
-			_obstacle.position = Vector2(280, 120)
-			_obstacle.size = Vector2(720, 100)
-			_obstacle_b.visible = true
-			_obstacle_b.position = Vector2(280, 120)
-			_obstacle_b.size = Vector2(120, 420)
-			exit_pos = Vector2(1000, 620)
-			_exit_label.text = "ДАЛЬШЕ ↓"
-			enemy_count = 6
-			_add_spawns([
-				Vector2(500, 320), Vector2(700, 360), Vector2(900, 300),
-				Vector2(1100, 280), Vector2(600, 500), Vector2(800, 480)
-			])
-		_:
-			# Tight center rooms, exit west
-			bg = Color(0.22, 0.17, 0.15)
-			_obstacle.visible = true
-			_obstacle.position = Vector2(400, 200)
-			_obstacle.size = Vector2(160, 320)
-			_obstacle_b.visible = true
-			_obstacle_b.position = Vector2(720, 200)
-			_obstacle_b.size = Vector2(160, 320)
-			exit_pos = Vector2(140, 360)
-			_exit_label.text = "ВЫХОД ←"
-			enemy_count = 7
-			_add_spawns([
-				Vector2(360, 160), Vector2(920, 160), Vector2(360, 560), Vector2(920, 560),
-				Vector2(640, 160), Vector2(500, 360), Vector2(780, 360)
-			])
-	_floor_bg.color = bg
-	_exit_zone.position = exit_pos
-	_hud_info.text = "эт. %d/%d · ЭЖК №17 · %s" % [floor_i, GameState.MAX_FLOORS, _floor_name(floor_i)]
-	var fp := "F%d:e%d:ex%.0f,%.0f:bg%.2f" % [floor_i, enemy_count, exit_pos.x, exit_pos.y, bg.r]
+	var drawn := _world.get_node_or_null("DrawnObstacles") as Node2D
+	if drawn == null:
+		drawn = Node2D.new()
+		drawn.name = "DrawnObstacles"
+		_world.add_child(drawn)
+	for c in drawn.get_children():
+		c.free()
+	for rect in preset.obstacles:
+		var block := ColorRect.new()
+		block.position = rect.position
+		block.size = rect.size
+		block.color = Color(0.4, 0.42, 0.45)
+		drawn.add_child(block)
+	var count := mini(preset.spawn_points.size(), preset.spawn_kinds.size())
+	for i in count:
+		var marker := Marker2D.new()
+		marker.position = preset.spawn_points[i]
+		marker.set_meta("kind", preset.spawn_kinds[i])
+		_spawn_points.add_child(marker)
+	_floor_bg.color = preset.bg
+	_exit_zone.position = preset.exit_pos
+	_hud_info.text = "эт. %d/%d · ЭЖК №17 · %s · %s" % [
+		GameState.current_floor,
+		GameState.run_length,
+		_zone_ru(preset.zone),
+		preset.title,
+	]
+	var fp := "F%d:e%d:ex%.0f,%.0f:bg%.2f" % [
+		GameState.current_floor,
+		count,
+		preset.exit_pos.x,
+		preset.exit_pos.y,
+		preset.bg.r,
+	]
 	GameState.record_floor_fingerprint(fp)
 
 
-func _floor_name(floor_i: int) -> String:
-	match floor_i:
-		1:
+func _zone_ru(zone: String) -> String:
+	match zone:
+		"ordinary":
 			return "обычные этажи"
-		2:
+		"shift":
 			return "смещение"
 		_:
-			return "техзона / выход"
-
-
-func _add_spawns(points: Array) -> void:
-	for p in points:
-		var m := Marker2D.new()
-		m.position = p
-		_spawn_points.add_child(m)
+			return "техзона"
 
 
 func _spawn_enemies() -> void:
 	for child in _spawn_points.get_children():
 		var e := ENEMY_SCENE.instantiate() as CharacterBody2D
+		e.kind = str(child.get_meta("kind", "tenant"))
 		e.position = child.position
 		_world.add_child(e)
 

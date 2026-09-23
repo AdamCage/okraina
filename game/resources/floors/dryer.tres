@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "dryer"
+zone = "ordinary"
+title = "Сушилка"
+bg = Color(0.2, 0.18, 0.16, 1)
+player_spawn = Vector2(180, 160)
+exit_pos = Vector2(1100, 560)
+obstacles = Array[Rect2]([Rect2(400, 200, 80, 280), Rect2(700, 200, 80, 280)])
+spawn_points = PackedVector2Array(520, 180, 860, 180, 520, 520, 860, 520)
+spawn_kinds = PackedStringArray("tenant", "tenant", "tenant", "tenant")

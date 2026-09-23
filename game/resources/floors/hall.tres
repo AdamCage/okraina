@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "hall"
+zone = "ordinary"
+title = "Площадка"
+bg = Color(0.17, 0.19, 0.18, 1)
+player_spawn = Vector2(160, 360)
+exit_pos = Vector2(1120, 120)
+obstacles = Array[Rect2]([Rect2(520, 280, 240, 80)])
+spawn_points = PackedVector2Array(700, 180, 900, 200, 1000, 400, 850, 520)
+spawn_kinds = PackedStringArray("tenant", "tenant", "tenant", "tenant")

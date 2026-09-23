@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "switchboard"
+zone = "tech"
+title = "Щитовая"
+bg = Color(0.22, 0.17, 0.15, 1)
+player_spawn = Vector2(640, 360)
+exit_pos = Vector2(140, 360)
+obstacles = Array[Rect2]([Rect2(400, 200, 160, 320), Rect2(720, 200, 160, 320)])
+spawn_points = PackedVector2Array(360, 160, 920, 160, 360, 560, 920, 560, 640, 160)
+spawn_kinds = PackedStringArray("meter", "tenant", "meter", "tenant", "meter")

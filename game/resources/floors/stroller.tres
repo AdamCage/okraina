@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FloorPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/floor_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "stroller"
+zone = "ordinary"
+title = "Колясочная"
+bg = Color(0.16, 0.2, 0.18, 1)
+player_spawn = Vector2(200, 560)
+exit_pos = Vector2(160, 140)
+obstacles = Array[Rect2]([Rect2(360, 300, 560, 70)])
+spawn_points = PackedVector2Array(480, 200, 700, 180, 980, 220, 640, 480)
+spawn_kinds = PackedStringArray("tenant", "tenant", "tenant", "tenant")

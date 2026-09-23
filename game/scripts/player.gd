@@ -88,7 +88,10 @@ func start_dodge() -> void:
 	for node in get_tree().get_nodes_in_group("enemies"):
 		if not node.has_method("is_telegraphing") or not node.is_telegraphing():
 			continue
-		if node.global_position.distance_to(global_position) > STRIKE_RANGE:
+		var zone := float(STRIKE_RANGE)
+		if node.get("strike_range") != null:
+			zone = float(node.strike_range)
+		if node.global_position.distance_to(global_position) > zone:
 			continue
 		_covered.append(node.get_instance_id())
 	if not _covered.is_empty():
