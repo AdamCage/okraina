@@ -47,14 +47,19 @@ var lead_id: String = ""
 var lead_damage: int = 0
 var lead_speed_mult: float = 1.0
 var lead_attack_cd_mult: float = 1.0
+var notice_id: String = ""
+var notice_damage: int = 0
+var notice_speed_mult: float = 1.0
 
 const _OfferCatalog := preload("res://scripts/offer_catalog.gd")
 const _BoardCatalog := preload("res://scripts/board_catalog.gd")
+const _NoticeCatalog := preload("res://scripts/notice_catalog.gd")
 
 
 func _ready() -> void:
 	_SlotStore.load_into(self)
 	_apply_lead()
+	_apply_notice()
 
 
 func _notification(what: int) -> void:
@@ -78,7 +83,9 @@ func reset_hub_meta() -> void:
 	zh_ek_notice = _SlotStore.DEFAULT_NOTICE
 	board_feed = _SlotStore.DEFAULT_BOARD
 	lead_id = ""
+	notice_id = ""
 	_apply_lead()
+	_apply_notice()
 
 
 func threads_for_board() -> Array[Dictionary]:
@@ -103,6 +110,12 @@ func _apply_lead() -> void:
 	lead_damage = int(mod["damage"])
 	lead_speed_mult = float(mod["speed_mult"])
 	lead_attack_cd_mult = float(mod["attack_cd_mult"])
+
+
+func _apply_notice() -> void:
+	var effect: Dictionary = _NoticeCatalog.effect_for(notice_id)
+	notice_damage = int(effect["damage"])
+	notice_speed_mult = float(effect["speed_mult"])
 
 
 func apply_boon_for_run() -> void:
@@ -203,11 +216,16 @@ func _seal_run_stats() -> void:
 
 func _refresh_hub_meta() -> void:
 	if last_result == "extract":
-		zh_ek_notice = "УК: зафиксирован выход жильца с этажа %d ЭЖК №17. Велосипеды на площадках по-прежнему запрещены. Убито «вредителей»: %d." % [last_floors, last_kills]
 		board_feed = "Аноним %s\n>> кто-то вышел с %d-го. пикрил жёлтую дверь\n\nАноним\nцарствие небесное тем кто остался на -0" % [_time_tag(), last_floors]
 	elif last_result == "death":
-		zh_ek_notice = "Акт: потеря связи с жильцом на этаже %d. Просьба не перекрывать эвакуационные проёмы коробками. Зафиксировано контактов: %d." % [last_floors, last_kills]
 		board_feed = "Аноним %s\nоп опять лёг на %d этаже лол\n\nАноним\n/hr/ советует не идти налево после щитовой" % [_time_tag(), last_floors]
+	else:
+		return
+	var picked: Dictionary = _NoticeCatalog.pick(last_result, last_floors, last_kills)
+	notice_id = str(picked["id"])
+	zh_ek_notice = str(picked["text"])
+	_apply_notice()
+	save_slot()
 
 
 func _time_tag() -> String:
@@ -231,6 +249,7 @@ func go_entrance() -> void:
 func go_run() -> void:
 	clear_run_offers()
 	apply_boon_for_run()
+	_apply_notice()
 	if next_run_seed >= 0:
 		run_seed = next_run_seed
 	else:
