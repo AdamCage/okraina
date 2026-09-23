@@ -16,7 +16,7 @@
 - Путь к `project.godot`: `game/project.godot`
 - Бинарник `godot`: `tools/godot/Godot_v4.7.2-stable_win64.exe` (и `_console.exe`; каталог `tools/` в `.gitignore`)
 - Язык: GDScript (default)
-- Контуры: `game/docs/vertical_slice/`, `game/docs/combat_feel/` (E1), `game/docs/run_builds/` (E2), `game/docs/run_floors/` (E3), `game/docs/save_slot/` (E4) …
+- Контуры: `game/docs/vertical_slice/`, `game/docs/combat_feel/` (E1), `game/docs/run_builds/` (E2), `game/docs/run_floors/` (E3), `game/docs/save_slot/` (E4), `game/docs/imageboard/` (E5) …
 - Платформы: Windows now; Android next; iOS later
 - Export presets: TBD
 - Store каналы: нет (класс `release` выключен)
@@ -44,6 +44,7 @@
 - Builds smoke (E2): `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/builds_smoke.gd`
 - Floors smoke (E3): `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/floors_smoke.gd`
 - Save smoke (E4): `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/slot_smoke.gd`
+- Board smoke (E5): `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/imageboard_smoke.gd`
 - Loop smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/loop_smoke.gd`
 - Editor play / smoke: `tools\godot\Godot_v4.7.2-stable_win64.exe --path game`
 - Headless / CLI: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`
@@ -57,4 +58,4 @@
 - Game skill: [`../.gamedev-sdlc/game/SKILL.md`](../.gamedev-sdlc/game/SKILL.md)
 - Design canon: [`../.gamedev-sdlc/game/design.md`](../.gamedev-sdlc/game/design.md)
 - World SoT: [`../docs/world/`](../docs/world/)
-- Программа этапов: [`../docs/program/spec.md`](../docs/program/spec.md) (следующий этап после E4 — E5)
+- Программа этапов: [`../docs/program/spec.md`](../docs/program/spec.md) (следующий этап после E5 — E6)

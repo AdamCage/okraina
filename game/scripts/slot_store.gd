@@ -2,7 +2,20 @@ class_name SlotStore
 extends RefCounted
 
 const PATH := "user://slot.json"
-const VERSION := 1
+const VERSION := 2
+const LEAD_IDS: Array[String] = ["", "pod_truth", "pod_lie", "pod_troll"]
+const V1_KEYS: Array[String] = [
+	"version",
+	"pending_boon",
+	"active_boon",
+	"extracted_once",
+	"kitchen_door_unlocked",
+	"last_result",
+	"last_kills",
+	"last_floors",
+	"zh_ek_notice",
+	"board_feed",
+]
 const BAD_NOTICE := "Папка с документами не читается. Завели новую карточку жильца."
 const DEFAULT_NOTICE := "В связи с повторным появлением лестничных площадок между 14-м и 15-м этажами просьба не оставлять там велосипеды."
 const DEFAULT_BOARD := " /pod/ — пока тихо. Аноны спят или зависли в лифте."
@@ -19,6 +32,7 @@ const KEYS: Array[String] = [
 	"last_floors",
 	"zh_ek_notice",
 	"board_feed",
+	"lead_id",
 ]
 
 
@@ -34,6 +48,7 @@ static func save_from(gs: Node) -> bool:
 		"last_floors": int(gs.get("last_floors")),
 		"zh_ek_notice": str(gs.get("zh_ek_notice")),
 		"board_feed": str(gs.get("board_feed")),
+		"lead_id": str(gs.get("lead_id")),
 	}
 	var file := FileAccess.open(PATH, FileAccess.WRITE)
 	if file == null:
@@ -66,15 +81,24 @@ static func load_into(gs: Node) -> String:
 	gs.set("last_floors", int(migrated["last_floors"]))
 	gs.set("zh_ek_notice", str(migrated["zh_ek_notice"]))
 	gs.set("board_feed", str(migrated["board_feed"]))
+	gs.set("lead_id", str(migrated["lead_id"]))
 	return "ok"
 
 
 static func migrate(raw: Dictionary) -> Dictionary:
 	if not _whole_number(raw.get("version", null)):
 		return {}
-	if int(raw["version"]) != VERSION:
-		return {}
-	return raw
+	var version := int(raw["version"])
+	if version == 1:
+		if not _valid_v1(raw):
+			return {}
+		var lifted := raw.duplicate()
+		lifted["version"] = VERSION
+		lifted["lead_id"] = ""
+		return lifted
+	if version == VERSION:
+		return raw
+	return {}
 
 
 static func wipe_slot() -> void:
@@ -90,6 +114,35 @@ static func _valid(data: Dictionary) -> bool:
 		if not data.has(key):
 			return false
 	if not _whole_number(data["version"]) or int(data["version"]) != VERSION:
+		return false
+	if typeof(data["pending_boon"]) != TYPE_STRING or not BOONS.has(str(data["pending_boon"])):
+		return false
+	if typeof(data["active_boon"]) != TYPE_STRING or not BOONS.has(str(data["active_boon"])):
+		return false
+	if typeof(data["extracted_once"]) != TYPE_BOOL:
+		return false
+	if typeof(data["kitchen_door_unlocked"]) != TYPE_BOOL:
+		return false
+	if typeof(data["last_result"]) != TYPE_STRING or not RESULTS.has(str(data["last_result"])):
+		return false
+	if not _whole_number(data["last_kills"]) or int(data["last_kills"]) < 0:
+		return false
+	if not _whole_number(data["last_floors"]) or int(data["last_floors"]) < 0:
+		return false
+	if typeof(data["zh_ek_notice"]) != TYPE_STRING:
+		return false
+	if typeof(data["board_feed"]) != TYPE_STRING:
+		return false
+	if typeof(data["lead_id"]) != TYPE_STRING or not LEAD_IDS.has(str(data["lead_id"])):
+		return false
+	return true
+
+
+static func _valid_v1(data: Dictionary) -> bool:
+	for key in V1_KEYS:
+		if not data.has(key):
+			return false
+	if not _whole_number(data["version"]) or int(data["version"]) != 1:
 		return false
 	if typeof(data["pending_boon"]) != TYPE_STRING or not BOONS.has(str(data["pending_boon"])):
 		return false
@@ -134,3 +187,4 @@ static func _apply_bad(gs: Node) -> void:
 	gs.set("last_floors", 0)
 	gs.set("board_feed", DEFAULT_BOARD)
 	gs.set("zh_ek_notice", BAD_NOTICE)
+	gs.set("lead_id", "")

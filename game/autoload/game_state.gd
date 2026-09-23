@@ -43,12 +43,18 @@ var next_run_seed: int = -1
 var run_seed: int = 0
 var run_length: int = FLOOR_MIN
 var preset_ids: Array[String] = []
+var lead_id: String = ""
+var lead_damage: int = 0
+var lead_speed_mult: float = 1.0
+var lead_attack_cd_mult: float = 1.0
 
 const _OfferCatalog := preload("res://scripts/offer_catalog.gd")
+const _BoardCatalog := preload("res://scripts/board_catalog.gd")
 
 
 func _ready() -> void:
 	_SlotStore.load_into(self)
+	_apply_lead()
 
 
 func _notification(what: int) -> void:
@@ -71,6 +77,32 @@ func reset_hub_meta() -> void:
 	last_floors = 0
 	zh_ek_notice = _SlotStore.DEFAULT_NOTICE
 	board_feed = _SlotStore.DEFAULT_BOARD
+	lead_id = ""
+	_apply_lead()
+
+
+func threads_for_board() -> Array[Dictionary]:
+	return _BoardCatalog.threads_for(last_result, last_floors, last_kills)
+
+
+func pick_lead(id: String) -> bool:
+	if id != "pod_truth" and id != "pod_lie" and id != "pod_troll":
+		return false
+	lead_id = id
+	_apply_lead()
+	save_slot()
+	return true
+
+
+func lead_label() -> String:
+	return str(_BoardCatalog.modifier_for(lead_id)["label"])
+
+
+func _apply_lead() -> void:
+	var mod: Dictionary = _BoardCatalog.modifier_for(lead_id)
+	lead_damage = int(mod["damage"])
+	lead_speed_mult = float(mod["speed_mult"])
+	lead_attack_cd_mult = float(mod["attack_cd_mult"])
 
 
 func apply_boon_for_run() -> void:

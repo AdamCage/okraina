@@ -11,7 +11,7 @@ extends Node2D
 func _ready() -> void:
 	_notice.text = GameState.zh_ek_notice
 	_board.text = "/pod/ локальный тред\n\n%s" % GameState.board_feed
-	_hint.text = "WASD — ходить · E — взаимодействие · выйти во двор → подъезд"
+	_hint.text = "WASD — ходить · E — взаимодействие · B — борда · выйти во двор → подъезд"
 	if GameState.pending_boon != "none":
 		_hint.text += "\nНа следующий заход выбрано: %s" % GameState.pending_boon
 	_door_panel.visible = GameState.kitchen_door_unlocked
@@ -19,9 +19,16 @@ func _ready() -> void:
 		_door_label.text = "Дверь за кухней\n[E]"
 		_hint.text = "Дверь за кухней на месте. E — осмотреть. ЖЭК и /pod/ обновились после забега."
 	GameState.save_slot()
+	var board_button := Button.new()
+	board_button.text = "Борда"
+	board_button.position = Vector2(980, 80)
+	board_button.pressed.connect(_toggle_board)
+	$UI.add_child(board_button)
 
 
 func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("board"):
+		_toggle_board()
 	if Input.is_action_just_pressed("interact"):
 		if GameState.kitchen_door_unlocked and _player_near_door():
 			_inspect_door()
@@ -44,3 +51,13 @@ func _on_exit_zone_body_entered(body: Node2D) -> void:
 
 func _on_leave_pressed() -> void:
 	GameState.go_entrance()
+
+
+func _toggle_board() -> void:
+	var existing := get_node_or_null("BoardPanel")
+	if existing != null:
+		existing.queue_free()
+		return
+	var panel := preload("res://scripts/board_panel.gd").new()
+	panel.name = "BoardPanel"
+	add_child(panel)
