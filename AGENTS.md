@@ -38,14 +38,16 @@ Kit product domain today: only `game`. No other companion product domains are de
 
 ## Команды
 
-- Тесты / smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/full_smoke.gd`
-- Loop smoke: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -s res://scripts/loop_smoke.gd`
+- Самотест игры (мир, бой, лут, квесты, сохранение): `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game -- --selftest`
+- Плейтест игровых путей: `... --headless --path game -- --playtest` (16 проверок в живой игре)
+- Тесты систем: `... --headless --path game -s res://tests/t_combat.gd` (так же `t_world.gd`, `t_ui.gd`)
 - Editor play / playtest: `tools\godot\Godot_v4.7.2-stable_win64.exe --path game`
 - Headless boot: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`
-- Export PC: `нет` (класс `release` выключен)
+- Export Web (демо-хостинг; вне процесса — класс `deploy`/`release` выключен): `powershell -File game\tools\deploy\build_web.ps1 [-Deploy]`
+- Export PC: `нет`
 - Export mobile: `нет`
 - Lint / точечная проверка: проверить относительные ссылки из этого файла и `game/AGENTS.md`
-- Deploy internal: класса нет
+- Deploy internal: вручную, `game\tools\deploy\deploy.py` (`probe|upload|nginx|cert|verify`)
 
 ## GitHub
 

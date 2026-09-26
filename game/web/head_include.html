@@ -1,0 +1,249 @@
+<!-- Мобильная обвязка для Web-экспорта: вставляется в <head> оболочки Godot. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="ЗОНА" />
+<meta name="theme-color" content="#0a0c0d" />
+<meta name="description" content="ЗОНА: Пикник на обочине — rogue-like ARPG в духе Diablo по мотивам Зоны. Играется с телефона прямо в браузере." />
+<!-- иконку для домашнего экрана Godot подставляет сам: index.apple-touch-icon.png -->
+<style>
+	html, body {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background: #07090a;
+		color: #cfc9bd;
+		font-family: "PT Sans Narrow", "Segoe UI", Roboto, system-ui, sans-serif;
+		overscroll-behavior: none;
+		touch-action: none;
+		-webkit-user-select: none;
+		user-select: none;
+		-webkit-tap-highlight-color: transparent;
+		-webkit-touch-callout: none;
+	}
+	/* отступы под «вырезы» экрана — HUD не уезжает под чёлку */
+	body {
+		padding: env(safe-area-inset-top) env(safe-area-inset-right)
+			env(safe-area-inset-bottom) env(safe-area-inset-left);
+		box-sizing: border-box;
+	}
+	#canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+		touch-action: none;
+		outline: none;
+	}
+	#zone-boot {
+		position: fixed;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 18px;
+		background: radial-gradient(circle at 50% 45%, #16201d 0%, #07090a 70%);
+		z-index: 50;
+		transition: opacity .6s ease;
+		text-align: center;
+	}
+	#zone-boot.hidden { opacity: 0; pointer-events: none; }
+	#zone-boot h1 {
+		font-size: clamp(28px, 7vw, 64px);
+		letter-spacing: .18em;
+		margin: 0;
+		color: #d8c07a;
+		text-shadow: 0 0 18px rgba(216, 192, 122, .35);
+	}
+	#zone-boot p { margin: 0; font-size: clamp(13px, 2.6vw, 18px); opacity: .8; max-width: 42ch; }
+	#zone-boot button {
+		font: inherit;
+		font-size: clamp(16px, 3.4vw, 22px);
+		padding: 16px 34px;
+		min-width: 220px;
+		min-height: 64px;
+		color: #f0e6cf;
+		background: linear-gradient(#3a3226, #221d16);
+		border: 2px solid #6c5a34;
+		border-radius: 8px;
+		cursor: pointer;
+	}
+	#zone-boot button:active { transform: translateY(1px); }
+	#zone-rotate {
+		position: fixed;
+		inset: 0;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		background: #07090a;
+		color: #d8c07a;
+		font-size: clamp(16px, 4vw, 26px);
+		z-index: 60;
+		text-align: center;
+		padding: 24px;
+	}
+	@media (orientation: portrait) and (pointer: coarse) {
+		#zone-rotate { display: flex; }
+	}
+</style>
+<div id="zone-rotate">Поверните телефон горизонтально —<br />Зона любит широкий обзор.</div>
+<div id="zone-boot">
+	<h1>ЗОНА</h1>
+	<p>Пикник на обочине. Rogue-like ARPG: аномалии, хабар и Сталкеры ждут.</p>
+	<button id="zone-start" type="button">ВОЙТИ В ЗОНУ</button>
+	<p id="zone-hint" style="opacity:.55">Управление: стик слева, кнопки справа. На ПК — WASD, мышь, F, R, I, J, Esc.</p>
+</div>
+<script>
+	/* ---------------------------------------------------------------------
+	 * Звук в web-экспорте: два дефекта, из-за которых в браузере тишина.
+	 *
+	 * 1) Политика автоплея. AudioContext создаётся в состоянии «suspended», и
+	 *    движок снимает паузу только на ввод в свой канвас. Кнопка «ВОЙТИ В
+	 *    ЗОНУ» — обычный DOM-элемент поверх канваса, поэтому первый вход в игру
+	 *    оставался без звука (в консоли Chrome: «The AudioContext was not
+	 *    allowed to start…»). Запоминаем все AudioContext, созданные движком, и
+	 *    возобновляем их на первом жесте — в том числе если жест случился
+	 *    раньше, чем движок контекст создал.
+	 *
+	 * 2) Добавление своих аудиошин (AudioServer.add_bus в autoload/sfx.gd)
+	 *    ломает выход Master. Движок сообщает драйверу send = -1 для Master, и
+	 *    оболочка Godot (Bus.connect) сначала делает disconnect() — выход шины в
+	 *    колонки пропадает, — а потом подключает Master сам к себе. Цикл в
+	 *    WebAudio глушится, поэтому весь «сэмпловый» путь (WAV/OGG) звучал в
+	 *    полную тишину, а на десктопе тот же код играл. Не даём порвать выход в
+	 *    колонки и не создаём циклы.
+	 * --------------------------------------------------------------------- */
+	(function () {
+		"use strict";
+
+		var contexts = [];
+		function resumeAll() {
+			for (var i = 0; i < contexts.length; i++) {
+				var ctx = contexts[i];
+				if (ctx.state !== "running") {
+					var pending = ctx.resume();
+					if (pending && pending.catch) { pending.catch(function () {}); }
+				}
+			}
+		}
+
+		var NativeAudioContext = window.AudioContext || window.webkitAudioContext;
+		if (NativeAudioContext) {
+			function ZoneAudioContext(options) {
+				var ctx = new NativeAudioContext(options);
+				contexts.push(ctx);
+				if (navigator.userActivation && navigator.userActivation.hasBeenActive) {
+					resumeAll();
+				}
+				return ctx;
+			}
+			ZoneAudioContext.prototype = NativeAudioContext.prototype;
+			try {
+				window.AudioContext = ZoneAudioContext;
+			} catch (err) {
+				// браузер запретил подмену — звук просто вернётся на клике по канвасу
+			}
+		}
+
+		var gestures = ["pointerdown", "touchend", "keydown"];
+		for (var i = 0; i < gestures.length; i++) {
+			document.addEventListener(gestures[i], resumeAll, { capture: true, passive: true });
+		}
+		document.addEventListener("visibilitychange", function () {
+			if (!document.hidden) { resumeAll(); }
+		});
+
+		/* Граф шин: не рвём выход шины в колонки и не создаём циклы. */
+		var outputs = new WeakMap();
+		window.__zoneAudioGuard = { cycles_blocked: 0, dest_kept: 0, to_destination: 0 };
+
+		function leadsBack(from, target, depth) {
+			if (from === target) { return true; }
+			if (depth <= 0) { return false; }
+			var next = outputs.get(from);
+			if (!next) { return false; }
+			var found = false;
+			next.forEach(function (node) {
+				if (!found && leadsBack(node, target, depth - 1)) { found = true; }
+			});
+			return found;
+		}
+
+		var nativeConnect = AudioNode.prototype.connect;
+		AudioNode.prototype.connect = function (dest) {
+			var ctx = this.context;
+			if (dest === ctx.destination) {
+				this.__zoneToDestination = true;
+				window.__zoneAudioGuard.to_destination++;
+			} else if (dest instanceof AudioNode && leadsBack(dest, this, 16)) {
+				// Такое подключение замкнуло бы цикл, а WebAudio глушит циклы.
+				window.__zoneAudioGuard.cycles_blocked++;
+				if (!this.__zoneToDestination) {
+					this.__zoneToDestination = true;
+					window.__zoneAudioGuard.dest_kept++;
+					return nativeConnect.call(this, ctx.destination);
+				}
+				return dest;
+			}
+			var out = nativeConnect.apply(this, arguments);
+			if (dest instanceof AudioNode) {
+				var set = outputs.get(this);
+				if (!set) { set = new Set(); outputs.set(this, set); }
+				set.add(dest);
+			}
+			return out;
+		};
+
+		var nativeDisconnect = AudioNode.prototype.disconnect;
+		AudioNode.prototype.disconnect = function () {
+			// Оболочка Godot рвёт все связи шины перед переподключением; выход
+			// шины, который уже идёт в колонки, не отдаём — иначе пропадёт звук.
+			if (arguments.length === 0 && this.__zoneToDestination) { return; }
+			return nativeDisconnect.apply(this, arguments);
+		};
+	})();
+</script>
+<script>
+	(function () {
+		"use strict";
+		function boot() {
+			var boot = document.getElementById("zone-boot");
+			var start = document.getElementById("zone-start");
+			var canvas = document.getElementById("canvas");
+			if (start) {
+				start.addEventListener("click", function () {
+					requestFullscreenSafe();
+					if (boot) { boot.classList.add("hidden"); }
+					if (canvas) { canvas.focus(); }
+				}, { passive: true });
+				start.addEventListener("touchend", function (ev) {
+					ev.preventDefault();
+					requestFullscreenSafe();
+					if (boot) { boot.classList.add("hidden"); }
+				}, { passive: false });
+			}
+			document.addEventListener("contextmenu", function (ev) { ev.preventDefault(); });
+			document.addEventListener("gesturestart", function (ev) { ev.preventDefault(); });
+			document.addEventListener("dblclick", function (ev) { ev.preventDefault(); });
+			document.addEventListener("visibilitychange", function () {
+				// при уходе в фон браузер режет аудио — подсказка игроку не нужна,
+				// просто не даём странице прокрутиться при возврате
+				if (!document.hidden) { window.scrollTo(0, 0); }
+			});
+		}
+		function requestFullscreenSafe() {
+			var el = document.documentElement;
+			if (!document.fullscreenElement && el.requestFullscreen) {
+				el.requestFullscreen({ navigationUI: "hide" }).catch(function () {});
+			}
+		}
+		if (document.readyState === "loading") {
+			document.addEventListener("DOMContentLoaded", boot);
+		} else {
+			boot();
+		}
+	})();
+</script>

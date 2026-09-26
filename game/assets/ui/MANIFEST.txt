@@ -1,0 +1,130 @@
+ЗОНА: Пикник на обочине — MANIFEST интерфейса (assets/ui)
+================================================================================================
+Сгенерировано процедурно: tools/gen/gen_ui.py (numpy + PIL, сиды фиксированы).
+Все файлы — PNG с альфой. Колонка «9-slice» — отступ для NinePatchRect в Godot 4
+(patch_margin_left/right/top/bottom); 0 = тянуть/тайлить целиком без 9-slice.
+Русские шрифты (Oswald.ttf, PT_Sans-Narrow-Web-Regular.ttf) не изменялись.
+
+[ОКНА, ПАНЕЛИ, СЛОТЫ]
+  panel_window.png                 320x240  9-slice 16 px  главное окно: тёмная сталь, оранжевый кант, болты
+  panel_window_light.png           320x240  9-slice 16 px  полупрозрачное окно поверх боя
+  panel_tooltip.png                256x128  9-slice 12 px  подсказка предмета: олива + янтарный кант
+  panel_slot.png                     72x72  9-slice 12 px  слот инвентаря (утопленное гнездо)
+  panel_slot_sel.png                 72x72  9-slice 12 px  слот: выбран (янтарная рамка + свечение)
+  panel_slot_rare.png                72x72  9-slice 12 px  слот: редкий предмет
+  panel_slot_quest.png               72x72  9-slice 12 px  слот: квестовый предмет
+  panel_vitals.png                 200x112  9-slice 12 px  панель здоровья (запрос hud.gd)
+  panel_detector.png                168x96  9-slice 12 px  панель детектора аномалий
+  panel_actionbar.png               160x96  9-slice 12 px  панель быстрых действий
+  dlg_portrait_frame.png           192x192  9-slice 16 px  рамка портрета в диалоге с NPC
+
+[ПОЛОСЫ И РАЗДЕЛИТЕЛИ]
+  bar_frame.png                     256x32  9-slice 8 px   универсальная рамка полосы
+  bar_frame_hp.png                  256x32  9-slice 8 px   рамка полосы здоровья
+  bar_frame_stamina.png             256x32  9-slice 8 px   рамка полосы стамины
+  bar_frame_xp.png                  256x32  9-slice 8 px   рамка полосы опыта
+  bar_thin_frame.png                128x12  9-slice 4 px   тонкая рамка (таймеры)
+  bar_fill_hp.png                   256x16  без 9-slice    заполнение HP: красный градиент + шум
+  bar_fill_stamina.png              256x16  без 9-slice    заполнение стамины: жёлто-оливковый
+  bar_fill_xp.png                   256x16  без 9-slice    заполнение опыта: токсично-зелёный
+  bar_fill_boss.png                 256x16  без 9-slice    полоса босса: тёмно-красная
+  panel_divider.png                 192x16  без 9-slice    горизонтальный разделитель-ржавая рейка (тайлится)
+
+[КНОПКИ И ДЖОЙСТИК]
+  btn_idle.png                      256x64  9-slice 12 px  кнопка: обычная (ржавая сталь)
+  btn_hover.png                     256x64  9-slice 12 px  кнопка: наведение (светлее + яркий кант)
+  btn_press.png                     256x64  9-slice 12 px  кнопка: нажатие (утоплена, тень сверху)
+  btn_disabled.png                  256x64  9-slice 12 px  кнопка: недоступна (полупрозрачная, серая)
+  btn_round_idle.png               128x128  без 9-slice    круглая кнопка: обычная
+  btn_round_press.png              128x128  без 9-slice    круглая кнопка: нажатие
+  joy_base.png                     256x256  без 9-slice    кольцо зоны джойстика (полупрозрачное)
+  joy_knob.png                     128x128  без 9-slice    рукоятка джойстика (металл с накаткой)
+
+[ТАЧ-HUD (глифовые кнопки 128x128)]
+  touch_attack.png                 128x128  без 9-slice    тач: атака (нож + патрон)
+  touch_use.png                    128x128  без 9-slice    тач: действие/обыск (открытая ладонь)
+  touch_dodge.png                  128x128  без 9-slice    тач: рывок (двойной шеврон)
+  touch_bag.png                    128x128  без 9-slice    тач: инвентарь (рюкзак)
+  touch_journal.png                128x128  без 9-slice    тач: журнал (блокнот)
+  touch_pause.png                  128x128  без 9-slice    тач: пауза (две полосы)
+  touch_heal.png                   128x128  без 9-slice    тач: аптечка (красный крест)
+  touch_map.png                    128x128  без 9-slice    тач: карта
+  touch_swap.png                   128x128  без 9-slice    тач: смена оружия (стрелки между стволами)
+
+[ДЕКОР HUD И ЭКРАННЫЕ СЛОИ]
+  minimap_frame.png                208x208  9-slice 16 px  рамка миникарты + метка «север» и деления
+  compass.png                      192x192  без 9-slice    компас: С/В/Ю/З + красная игла севера
+  crosshair.png                      48x48  без 9-slice    прицел: тонкий крест + точка
+  cursor.png                         32x32  без 9-slice    системный курсор-стрелка
+  quest_marker.png                   24x32  без 9-slice    маркер квеста (янтарный указатель)
+  skull_marker.png                   24x24  без 9-slice    маркер трупа/опасности
+  party_marker.png                   24x24  без 9-slice    маркер союзника
+  danger_arrow.png                   32x32  без 9-slice    указатель урона/опасности (вращать по углу)
+  radar_grid.png                   128x128  без 9-slice    сетка радара/детектора (тайл 128x128)
+  vignette.png                     512x512  без 9-slice    затемнение по краям экрана (центр прозрачный)
+  blood_overlay.png                512x512  без 9-slice    кровь по краям экрана (при уроне)
+  damage_flash.png                 256x256  без 9-slice    красная радиальная вспышка урона
+  noise_overlay.png                256x256  без 9-slice    плёнка/зерно поверх экрана (низкая альфа)
+  scanlines.png                        8x8  без 9-slice    тайл строчной развёртки 8x8
+
+[ПЛАШКИ ТЕКСТА]
+  banner_quest.png                  512x64  9-slice 12 px  баннер квеста: ржавая пластина с зеброй
+  banner_levelup.png                512x64  9-slice 12 px  баннер повышения уровня
+  log_plate.png                     384x32  9-slice 8 px   плашка строки журнала/лога
+
+[ИКОНКИ ПРЕДМЕТОВ 64x64 (читаемы в 32 px)]
+  icon_pm.png                        64x64  без 9-slice    ПМ (пистолет Макарова)
+  icon_ak.png                        64x64  без 9-slice    АК-74
+  icon_shotgun.png                   64x64  без 9-slice    обрез
+  icon_knife.png                     64x64  без 9-slice    нож охотничий
+  icon_crossbow.png                  64x64  без 9-slice    арбалет
+  icon_ammo_9x18.png                 64x64  без 9-slice    патроны 9x18
+  icon_ammo_545.png                  64x64  без 9-slice    патроны 5.45
+  icon_ammo_12ga.png                 64x64  без 9-slice    патроны 12x70 (дробь)
+  icon_bolt.png                      64x64  без 9-slice    болт с гайкой
+  icon_armor_leather.png             64x64  без 9-slice    куртка сталкера
+  icon_armor_plate.png               64x64  без 9-slice    комбинезон «Заря» / бронеплита
+  icon_armor_exo.png                 64x64  без 9-slice    экзоскелет «Буревестник»
+  icon_helmet.png                    64x64  без 9-slice    шлем «Сфера»
+  icon_medkit.png                    64x64  без 9-slice    аптечка
+  icon_bandage.png                   64x64  без 9-slice    бинт
+  icon_antidote.png                  64x64  без 9-slice    антирад
+  icon_vodka.png                     64x64  без 9-slice    водка
+  icon_canned.png                    64x64  без 9-slice    тушёнка
+  icon_bread.png                     64x64  без 9-slice    хлеб
+  icon_energy_drink.png              64x64  без 9-slice    энергетик
+  icon_flashlight.png                64x64  без 9-slice    фонарь
+  icon_detector.png                  64x64  без 9-slice    детектор «Отклик»
+  icon_binocular.png                 64x64  без 9-slice    бинокль
+  icon_radio.png                     64x64  без 9-slice    рация
+  icon_geiger.png                    64x64  без 9-slice    дозиметр
+  icon_scrap.png                     64x64  без 9-slice    хлам
+  icon_tools.png                     64x64  без 9-slice    инструменты
+  icon_docs.png                      64x64  без 9-slice    документы
+  icon_key.png                       64x64  без 9-slice    ключ от бункера
+  icon_quest_note.png                64x64  без 9-slice    записка с заданием
+  icon_radiation.png                 64x64  без 9-slice    знак радиации (HUD-иконка)
+  icon_weapon_empty.png              64x64  без 9-slice    пустой слот оружия
+  icon_artifact_medusa.png           64x64  без 9-slice    артефакт «Медуза» (синий)
+  icon_artifact_flower.png           64x64  без 9-slice    артефакт «Цветок» (красный)
+  icon_artifact_soul.png             64x64  без 9-slice    артефакт «Душа» (бледный)
+  icon_artifact_moonlight.png        64x64  без 9-slice    «Ночная звезда» (жёлтый)
+  icon_artifact_fruit.png            64x64  без 9-slice    артефакт «Плод» (оранжевый)
+  icon_artifact_grav.png             64x64  без 9-slice    «Гравиконцентрат»
+
+[БРЕНДИНГ]
+  logo.png                        1024x256  без 9-slice    логотип: «ЗОНА» + «ПИКНИК НА ОБОЧИНЕ»
+  splash_bg.png                   1024x576  без 9-slice    фон сплэша 1024x576: туман, руины, силуэт сталкера
+  icon_app.png                     512x512  без 9-slice    иконка приложения: трилистник на ржавом круге
+
+ПРОЧЕЕ
+  Контрольные листы (вне assets): tools/gen/_out/sheet_ui_panels.png,
+  sheet_ui_icons.png, sheet_ui_icons_32.png, sheet_ui_touch.png, sheet_ui_brand.png.
+  Всего файлов: 96.
+
+ПОДСКАЗКИ ПО ИСПОЛЬЗОВАНИЮ
+  * Панели/кнопки/слоты: NinePatchRect с patch_margin = значению «9-slice».
+  * Полосы: bar_frame_* + bar_fill_* внутрь, растягивать по X (STRETCH_SCALE).
+  * scanlines.png, radar_grid.png, noise_overlay.png — тайлы (TEXTURE_REPEAT).
+  * Иконки предметов — 64x64, читаемы при уменьшении до 32 px (имена совпадают
+    с полем "icon" в scripts/item_db.gd).

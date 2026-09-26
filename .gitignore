@@ -2,7 +2,7 @@
 .conversation.md
 
 # Local Godot editor/binary (do not commit)
-tools/
+tools/godot/
 
 # Godot 4
 .godot/
@@ -15,6 +15,18 @@ builds/
 *.exe
 *.pck
 *.zip
+
+# Game (game/): import cache, локальные сборки, мусор инструментов
+game/.godot/
+game/build/
+game/tools/gen/_out/
+game/*.log
+game/*.err
+game/*.txt
+game/tests/*.log
+game/tests/*.err
+__pycache__/
+*.pyc
 
 # OS / editor
 Thumbs.db
