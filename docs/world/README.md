@@ -18,4 +18,6 @@ Issue: https://github.com/AdamCage/okraina/issues/1
 
 | Файл | Назначение |
 |---|---|
-| [`ROADMAP.md`](ROADMAP.md) | Исполняемый план стадий под агентский SDLC (классы router). **Реализация по плану ещё не начата.** |
+| [`../program/spec.md`](../program/spec.md) | Контракт этапов E1–E11: от greybox до планки игры на Windows и готовности Android |
+| [`../program/assumptions.md`](../program/assumptions.md) | Допущения программы |
+| [`ROADMAP.md`](ROADMAP.md) | Индекс. Порядок и классы — в spec программы. Следующий этап — E1 |
