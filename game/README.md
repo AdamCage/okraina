@@ -6,6 +6,16 @@ Rogue-like ARPG в духе Diablo по мотивам «Пикника на о�
 
 **Играть в браузере (телефон/ПК):** <https://31-130-128-81.sslip.io/>
 
+## Скриншоты
+
+Кадры сняты с живой веб-сборки 0.1.3; файлы лежат в [`../docs/screenshots/`](../docs/screenshots/).
+
+| | |
+|---|---|
+| ![Стартовый экран](../docs/screenshots/01-start.png) | ![Главное меню](../docs/screenshots/02-menu.png) |
+| ![Рейд в Зоне](../docs/screenshots/03-zone.png) | ![Сумка](../docs/screenshots/04-inventory.png) |
+| ![Журнал](../docs/screenshots/05-journal.png) | ![Мобильная раскладка](../docs/screenshots/06-mobile.png) |
+
 ## Что уже есть
 
 - Одна большая бесшовная локация (~260x200 тайлов) из 5 зон: **Кордон, Деревня, Завод,

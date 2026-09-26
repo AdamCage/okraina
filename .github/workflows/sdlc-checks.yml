@@ -15,6 +15,7 @@ jobs:
         run: |
           set -euo pipefail
           for p in \
+            README.md \
             AGENTS.md \
             game/AGENTS.md \
             docs/world/README.md \
