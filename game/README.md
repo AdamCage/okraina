@@ -75,6 +75,11 @@ powershell -File tools\deploy\build_web.ps1 -Selftest
 `$ErrorActionPreference='Stop'` обрывается на первой же строке stderr Godot, а `cmd /c "... 2>&1"`
 теряет часть вывода движка.
 
+`exclude_filter` пресета не пускает в `index.pck` ничего из `tools/gen/_out/` (превью
+генераторов) и из `build/`: веб-экспорт кладёт в `build/web/` свои PWA-иконки и манифест,
+и без этого они на **следующей** сборке попадали бы в пак как «ресурсы проекта»
+(≈79 КБ мёртвого веса, накапливается с каждой сборкой).
+
 Деплой-скрипт `tools/deploy/deploy.py` умеет по шагам: `probe`, `install`, `upload`,
 `nginx`, `cert`, `verify` (или `all`). Креды ВМ читаются из `.env`
 (строки `# ssh root@IP` и пароль). Сертификат выпускается через certbot/HTTP-01
