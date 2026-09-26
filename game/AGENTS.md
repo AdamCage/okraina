@@ -57,6 +57,9 @@
 - Headless / CLI: `tools\godot\Godot_v4.7.2-stable_win64_console.exe --headless --path game --quit-after 3`
 - Генерация ассетов: `cd game\tools\gen`, затем `python gen_ground.py` / `gen_sprites.py` / `gen_ui.py` / `gen_audio.py`
 - Export Web: `powershell -File game\tools\deploy\build_web.ps1` (с `-Deploy` — и выкладка)
+- После сборки Godot перезаписывает `*.import` (новый mtime), и `git status` может показать
+  ~239 `.import` как изменённые, хотя содержимое совпадает с индексом байт-в-байт
+  (`git diff` пуст, хеши совпадают). Снимается `git add -A` — коммитить там нечего.
 - Export PC: нет
 - Export mobile: нет
 - Internal deploy: `game\tools\deploy\deploy.py` (`probe|upload|nginx|cert|verify`), класс `deploy` выключен
